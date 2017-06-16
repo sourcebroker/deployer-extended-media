@@ -1,0 +1,27 @@
+{
+  "name": "sourcebroker/deployer-extended-media",
+  "description": "Media synchronization between application instances.",
+  "license": "MIT",
+  "keywords": [
+    "deployer",
+    "media",
+    "synchronization"
+  ],
+  "authors": [
+    {
+      "name": "Krystian Szymukowicz",
+      "email": "k.szymukowicz@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "SourceBroker\\DeployerExtendedMedia\\": "src/"
+    },
+    "files": [
+      "src/Autoload.php"
+    ]
+  }
+}
