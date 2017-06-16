@@ -35,13 +35,9 @@ Installation
    composer require sourcebroker/deployer-extended-media
 
 
-Task's documentation
---------------------
 
-media
-~~~~~
-
-Options:
+Options
+-------
 
 - | **exclude**
   | *default value:* null
@@ -170,6 +166,10 @@ Example configuration for TYPO3:
        ]
    ]);
 
+
+
+Tasks
+-----
 
 media:move
 ++++++++++
