@@ -1,5 +1,5 @@
-deployer-extended-database
-==========================
+deployer-extended-media
+=======================
 
 .. image:: https://styleci.io/repos/94532515/shield?branch=master
    :target: https://styleci.io/repos/94532515
@@ -25,7 +25,7 @@ The package provides additional tasks for deployer (deployer.org) for synchroniz
 How this can be useful for me?
 ------------------------------
 
-The most useful is "dep media:pull [target]" task which allows you to pull media from target instance.
+The most useful is "dep media:pull [target]" task which allows you to pull media from target instance with rsync.
 Having possibility to fast synchronise media can speed up instance dependent development.
 
 Installation
@@ -33,8 +33,6 @@ Installation
 ::
 
    composer require sourcebroker/deployer-extended-media
-
-
 
 Options
 -------
