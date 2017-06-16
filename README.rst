@@ -1,8 +1,8 @@
 deployer-extended-database
 ==========================
 
-.. image:: https://styleci.io/repos/82486796/shield?branch=master
-   :target: https://styleci.io/repos/82486796
+.. image:: https://styleci.io/repos/94532515/shield?branch=master
+   :target: https://styleci.io/repos/94532515
 
 .. image:: https://scrutinizer-ci.com/g/sourcebroker/deployer-extended-media/badges/quality-score.png?b=master
    :target: https://scrutinizer-ci.com/g/sourcebroker/deployer-extended-media/?branch=master
