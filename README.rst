@@ -30,9 +30,42 @@ Having possibility to fast synchronise media can speed up instance dependent dev
 
 Installation
 ------------
+
+1) Install package with composer:
+   ::
+
+      composer require sourcebroker/deployer-extended-media
+
+2) If you are using deployer as composer package then just put following line in your deploy.php:
+   ::
+
+      new \SourceBroker\DeployerExtendedMedia\Loader();
+
+3) If you are using deployer as phar then put following lines in your deploy.php:
+   ::
+
+      require __DIR__ . '/vendor/autoload.php';
+      new \SourceBroker\DeployerExtendedMedia\Loader();
+
+4) In deploy.php set the folders you want to synchronize:
 ::
 
-   composer require sourcebroker/deployer-extended-media
+   set('media',
+       [
+        'filter' => [
+            '+ /fileadmin/',
+            '- /fileadmin/_processed_/*',
+            '+ /fileadmin/**',
+            '+ /uploads/',
+            '+ /uploads/**',
+            '- *'
+       ]
+   ]);
+
+5) Run the task:
+::
+
+   dep media:pull [stage]
 
 Options
 -------
@@ -108,7 +141,7 @@ Options
 
 Default configuration for task:
 ::
-   set('media-default',
+   set('media_default',
     [
         'exclude' => [],
         'exclude-case-insensitive' => [
@@ -147,9 +180,9 @@ Default configuration for task:
     ]);
 
 
-In your project you should set "media" which will be merged with "media-default" configuration.
+In your project you should set "media" which will be merged with "media_default" configuration.
 
-Example configuration for TYPO3:
+Example configuration for TYPO3 CMS (typo3.org):
 ::
 
    set('media',
@@ -165,14 +198,13 @@ Example configuration for TYPO3:
    ]);
 
 
-
 Tasks
 -----
 
 media:move
 ++++++++++
 
-Move media from target instance to second target instance using rsync and options from "media-default" and "media".
+Move media from target instance to second target instance using rsync and options from "media_default" and "media".
 
 Its a shortcut for two separated commands.
 ::
@@ -194,10 +226,10 @@ instance and then from current instance to target2 instance.
 media:pull
 ++++++++++
 
-Pull media from target instance to current instance using rsync and options from "media-default" and "media".
+Pull media from target instance to current instance using rsync and options from "media_default" and "media".
 
 media:push
 ++++++++++
 
-Pull media from current instance to target instance using rsync and options from "media-default" and "media".
+Pull media from current instance to target instance using rsync and options from "media_default" and "media".
 
