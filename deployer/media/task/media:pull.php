@@ -6,7 +6,7 @@ task('media:pull', function () {
     if (null === input()->getArgument('stage')) {
         throw new \RuntimeException("The target instance is required for media:pull command. [Error code: 1488149981776]");
     }
-    $config = array_merge_recursive(get('media-default'), get('media'));
+    $config = array_merge_recursive(get('media_default'), get('media'));
 
     $src = get('deploy_path') . '/current';
     if (!trim($src)) {
