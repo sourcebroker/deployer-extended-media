@@ -5,7 +5,7 @@ namespace Deployer;
 /*
  * Based on https://github.com/deployphp/recipes/blob/master/recipes/rsync.php
  */
-set('media-default',
+set('media_default',
     [
         'exclude' => [],
         'exclude-case-insensitive' => [
@@ -47,7 +47,7 @@ set('media-default',
 set('media_rsync_dest', getcwd());
 
 set('media_rsync_excludes', function () {
-    $config = array_merge_recursive(get('media-default'), get('media'));
+    $config = array_merge_recursive(get('media_default'), get('media'));
 
     $excludes = isset($config['exclude']) ? $config['exclude'] : [];
     $excludesRsync = '';
@@ -79,7 +79,7 @@ set('media_rsync_excludes', function () {
 });
 
 set('media_rsync_includes', function () {
-    $config = array_merge_recursive(get('media-default'), get('media'));
+    $config = array_merge_recursive(get('media_default'), get('media'));
 
     $includes = isset($config['include']) ? $config['include'] : [];
     $includesRsync = '';
@@ -95,7 +95,7 @@ set('media_rsync_includes', function () {
 });
 
 set('media_rsync_filter', function () {
-    $config = array_merge_recursive(get('media-default'), get('media'));
+    $config = array_merge_recursive(get('media_default'), get('media'));
 
     $filters = isset($config['filter']) ? $config['filter'] : [];
     $filtersRsync = '';
@@ -117,7 +117,7 @@ set('media_rsync_filter', function () {
 });
 
 set('media_rsync_options', function () {
-    $config = array_merge_recursive(get('media-default'), get('media'));
+    $config = array_merge_recursive(get('media_default'), get('media'));
 
     $options = isset($config['options']) ? $config['options'] : [];
     $optionsRsync = [];
@@ -125,4 +125,15 @@ set('media_rsync_options', function () {
         $optionsRsync[] = "--$option";
     }
     return implode(' ', $optionsRsync);
+});
+
+// Local call of deployer can be not standard. For example someone could have "dep3" and "dep4" symlinks and call
+// "dep3 deploy live". He could expect then that if we will use deployer call inside task we will use then "dep3" and not "dep"
+// so we store actual way of calling deployer into "local/bin/deployer" var to use it whenever we call local deployer again in tasks.
+set('local/bin/deployer', function () {
+    if ($_SERVER['_'] == $_SERVER['PHP_SELF']) {
+        return $_SERVER['_'];
+    } else {
+        return $_SERVER['_'] . $_SERVER['PHP_SELF'];
+    }
 });
