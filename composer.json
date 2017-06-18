@@ -19,9 +19,6 @@
   "autoload": {
     "psr-4": {
       "SourceBroker\\DeployerExtendedMedia\\": "src/"
-    },
-    "files": [
-      "src/Autoload.php"
-    ]
+    }
   }
 }
