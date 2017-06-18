@@ -48,24 +48,24 @@ Installation
       new \SourceBroker\DeployerExtendedMedia\Loader();
 
 4) In deploy.php set the folders you want to synchronize:
-::
+   ::
 
-   set('media',
-       [
-        'filter' => [
-            '+ /fileadmin/',
-            '- /fileadmin/_processed_/*',
-            '+ /fileadmin/**',
-            '+ /uploads/',
-            '+ /uploads/**',
-            '- *'
-       ]
-   ]);
+      set('media',
+          [
+           'filter' => [
+               '+ /fileadmin/',
+               '- /fileadmin/_processed_/*',
+               '+ /fileadmin/**',
+               '+ /uploads/',
+               '+ /uploads/**',
+               '- *'
+          ]
+      ]);
 
 5) Run the task:
-::
+   ::
 
-   dep media:pull [stage]
+      dep media:pull [stage]
 
 Options
 -------
