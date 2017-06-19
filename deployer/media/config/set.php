@@ -134,6 +134,6 @@ set('local/bin/deployer', function () {
     if ($_SERVER['_'] == $_SERVER['PHP_SELF']) {
         return $_SERVER['_'];
     } else {
-        return $_SERVER['_'] . $_SERVER['PHP_SELF'];
+        return $_SERVER['_'] . ' ' . $_SERVER['PHP_SELF'];
     }
 });
