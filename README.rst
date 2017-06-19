@@ -22,6 +22,8 @@ What does it do?
 
 The package provides additional tasks for deployer (deployer.org) for synchronizing media between instances.
 
+**NOTE! Its tested only with Deployer 4.3.0!**
+
 How this can be useful for me?
 ------------------------------
 
