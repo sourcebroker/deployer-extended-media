@@ -22,7 +22,7 @@ What does it do?
 
 The package provides additional tasks for deployer (deployer.org) for synchronizing media between instances.
 
-**NOTE! Its tested only with Deployer 4.3.0!**
+**NOTE! Its tested only with Deployer 4.3.1!**
 
 How this can be useful for me?
 ------------------------------
@@ -41,13 +41,17 @@ Installation
 2) If you are using deployer as composer package then just put following line in your deploy.php:
    ::
 
-      new \SourceBroker\DeployerExtendedMedia\Loader();
+      new \SourceBroker\DeployerLoader\Load([['path' => 'vendor/sourcebroker/deployer-extended-media/deployer']]);
 
 3) If you are using deployer as phar then put following lines in your deploy.php:
    ::
 
-      require __DIR__ . '/vendor/autoload.php';
-      new \SourceBroker\DeployerExtendedMedia\Loader();
+      require_once(__DIR__ . '/vendor/sourcebroker/deployer-loader/autoload.php');
+      new \SourceBroker\DeployerLoader\Load([['path' => 'vendor/sourcebroker/deployer-extended-media/deployer']]);
+
+   | IMPORTANT NOTE!
+   | Do not put ``require('/vendor/autoload.php')`` inside your deploy.php because you can have dependency problems.
+     Use ``require_once(__DIR__ . '/vendor/sourcebroker/deployer-loader/autoload.php');`` instead as suggested.
 
 4) In deploy.php set the folders you want to synchronize:
    ::
@@ -235,3 +239,8 @@ media:push
 
 Pull media from current instance to target instance using rsync and options from "media_default" and "media".
 
+
+Changelog
+---------
+
+See https://github.com/sourcebroker/deployer-extended-media/blob/master/CHANGELOG.rst
