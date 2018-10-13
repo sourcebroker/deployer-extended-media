@@ -127,13 +127,6 @@ set('media_rsync_options', function () {
     return implode(' ', $optionsRsync);
 });
 
-// Local call of deployer can be not standard. For example someone could have "dep3" and "dep4" symlinks and call
-// "dep3 deploy live". He could expect then that if we will use deployer call inside task we will use then "dep3" and not "dep"
-// so we store actual way of calling deployer into "local/bin/deployer" var to use it whenever we call local deployer again in tasks.
 set('local/bin/deployer', function () {
-    if ($_SERVER['_'] == $_SERVER['PHP_SELF']) {
-        return $_SERVER['_'];
-    } else {
-        return $_SERVER['_'] . ' ' . $_SERVER['PHP_SELF'];
-    }
+    return './vendor/bin/dep';
 });

@@ -2,6 +2,12 @@
 Changelog
 ---------
 
+master
+~~~~~~
+
+1) [TASK][BREAKING] Possible breaking change for those using global "dep" instead of that one in './vendor/bin/dep' as
+   'local/bin/deployer' is set now to './vendor/bin/dep'.
+
 3.0.0
 ~~~~~
 
