@@ -229,6 +229,33 @@ Is in fact:
 Media are not moved directly from target1 to target2. First its synchronised from target1 instance to current
 instance and then from current instance to target2 instance.
 
+media:copy
+++++++++++
+
+Copy media between (remote) instances without using local machine.
+
+::
+
+    media:copy target source
+
+Commands are executed on target remote instance.
+In fact "media:pull source" is executed.
+
+media:link
+++++++++++
+
+Only for remote instances placed on same machine.
+Command creates symbolic links on target instance pointing to files on source machine.
+
+::
+
+    media:link target source
+
+Commands are executed on target remote instance.
+For each file from source instance that is not exist on target instance:
+  Create directory tree recursively.
+  Symlink to file from source instance.
+
 media:pull
 ++++++++++
 
