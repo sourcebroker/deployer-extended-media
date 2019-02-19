@@ -58,5 +58,4 @@ task('media:copy', function () {
         "[ -f \"". $targetDir ."/%p\" ] || [ -L \"". $targetDir ."/%p\" ] || (dirname \"". $targetDir ."/%p\" | xargs -n 1 mkdir -p && cp -s \"". $sourceDir ."/%p\" \"". $targetDir ."/%p\" )" .
         "\\n' | bash"
         );
-
 })->desc('Copy files between istances (without using local instance).');
