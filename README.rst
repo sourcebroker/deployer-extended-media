@@ -253,8 +253,10 @@ Command creates symbolic links on target instance pointing to files on source ma
 
 Commands are executed on target remote instance.
 For each file from source instance that is not exist on target instance:
-  Create directory tree recursively.
-  Symlink to file from source instance.
+1. Create directory tree recursively.
+2. Symlink to file from source instance.
+
+So each file on target instance may be modified / deleted without effect on source.
 
 media:pull
 ++++++++++
