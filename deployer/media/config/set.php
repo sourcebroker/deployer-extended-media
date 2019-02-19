@@ -127,6 +127,58 @@ set('media_rsync_options', function () {
     return implode(' ', $optionsRsync);
 });
 
+
+set('media_cp_excludes', function () {
+    $config = array_merge_recursive(get('media_default'), get('media'));
+
+    $excludes = isset($config['exclude']) ? $config['exclude'] : [];
+    $excludesCp = '';
+    foreach ($excludes as $exclude) {
+        $excludesCp .= ' ! -path ' . escapeshellarg($exclude);
+    }
+
+    $excludeFile = isset($config['exclude-file']) ? $config['exclude-file'] : false;
+    if (!empty($excludeFile) && file_exists($excludeFile) && is_file($excludeFile) && is_readable($excludeFile)) {
+        $excludesCp .= ' ! -path ' . escapeshellarg($excludeFile);
+    }
+
+    // rsync does not have case insensitive flag
+    $excludesCaseInsensitive = isset($config['exclude-case-insensitive']) ? $config['exclude-case-insensitive'] : [];
+    foreach ($excludesCaseInsensitive as $excludeCaseInsensitive) {
+        $excludePatternCaseInsensitive = '';
+        $excludePatternNormalized = strtolower($excludeCaseInsensitive);
+        foreach (str_split($excludePatternNormalized) as $letter) {
+            if (strtoupper($letter) == $letter) {
+                $excludePatternCaseInsensitive .= $letter;
+            } else {
+                $excludePatternCaseInsensitive .= '[' . $letter . mb_strtoupper($letter) . ']';
+            }
+        }
+        $excludesCp .= ' ! -path "' . $excludePatternCaseInsensitive . '"';
+    }
+
+    return $excludesCp;
+});
+
+set('media_cp_includes', function () {
+    $config = array_merge_recursive(get('media_default'), get('media'));
+
+    $includes = isset($config['include']) ? $config['include'] : [];
+    $includesCp = [];
+    foreach ($includes as $include) {
+        $includesCp[] = ' -path ' . escapeshellarg($include);
+    }
+
+    $includeFile = isset($config['include-file']) ? $config['include-file'] : false;
+    if (!empty($includeFile) && file_exists($includeFile) && is_file($includeFile) && is_readable($includeFile)) {
+        $includesCp[] = ' -path ' . escapeshellarg($includeFile);
+    }
+
+    return $includesCp
+        ? '\\( '. implode(' -o ', $includesCp) .' \\)'
+        : '';
+});
+
 set('local/bin/deployer', function () {
     return './vendor/bin/dep';
 });
