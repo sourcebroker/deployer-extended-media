@@ -4,7 +4,7 @@ namespace Deployer;
 
 use SourceBroker\DeployerExtended\Configuration;
 
-task('media:copy', function () {
+task('media:link', function () {
     $targetName = input()->getArgument('stage');
     $sourceName = input()->getArgument('targetStage');
 
@@ -46,16 +46,26 @@ task('media:copy', function () {
         );
     }
 
-    // linking on same remote server
+    // linking on the same remote server
     // 1. cd to source server document root
-    // 2. find all files fulfiting filter conditions (-L param makes find to search in linked directories - for example shared)
+    // 2. find all files fulfiting filter conditions (-L param makes find to search in linked directories - for example shared/)
     //    for each found file:
     //     2.1. check if file already exists on target instance - if it exists omit this file
-    //     2.2. get directory name of file and create directories recursively
-    //     2.3. create link with `cp -s` for file
-    run("cd " . $sourceDir .
-        "&& find -L . -type f {{media_cp_includes}} {{media_cp_excludes}} -printf '" .
-        "[ -f \"". $targetDir ."/%p\" ] || [ -L \"". $targetDir ."/%p\" ] || (dirname \"". $targetDir ."/%p\" | xargs -n 1 mkdir -p && cp -s \"". $sourceDir ."/%p\" \"". $targetDir ."/%p\" )" .
-        "\\n' | bash"
-        );
+    //     2.2. get directory name (on source instance) of file and create directories recursively (on destination instance)
+    //     2.3. create link (with `ln -s`) in target instance targeting source file
+    $script = <<<BASH
+cd {{media_cp_sourcedir}}
+find -L . -type f {{media_cp_includes}} {{media_cp_excludes}} -printf '
+[ -f "{{media_cp_targetdir}}/%p" ] || \
+[ -L "{{media_cp_targetdir}}/%p" ] || \
+( \
+    dirname "{{media_cp_targetdir}}/%p" | xargs -n 1 mkdir -p && \
+    ln -s "{{media_cp_sourcedir}}/%p" "{{media_cp_targetdir}}/%p" \
+)' | bash
+BASH;
+
+    set('media_cp_targetdir', $targetDir);
+    set('media_cp_sourcedir', $sourceDir);
+
+    run($script);
 })->desc('Copy files between istances (without using local instance).');
