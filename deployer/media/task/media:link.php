@@ -47,6 +47,10 @@ task('media:link', function () {
         );
     }
 
+    $mode = !$force
+        ? '--update'
+        : '';
+
     // linking on the same remote server
     // 1. cd to source server document root
     // 2. find all files fulfiting filter conditions (-L param makes find to search in linked directories - for example shared/)
@@ -55,30 +59,27 @@ task('media:link', function () {
     //     2.2. get directory name (on source instance) of file and create directories recursively (on destination instance)
     //     2.3. create link (with `ln -s`) in target instance targeting source file
     $script = <<<BASH
-rsync {{media_rsync_flags}} --info=all0,name1 --dry-run {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$sourceDir/' '$targetDir/' |
+rsync {{media_rsync_flags}} --info=all0,name1 {$mode} --dry-run {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$sourceDir/' '$targetDir/' |
 while read path; do
-    if [ -d "{{media_copy_sourcedir}}/\$path" ]
+    if [ -d "{$sourceDir}/\$path" ]
     then
         echo "Creating directory \$path"
-        mkdir -p "{{media_copy_targetdir}}/\$path"
+        mkdir -p "{$targetDir}/\$path"
     else
-        if [ ! -z "{$force}" ] && [ -e "{{media_copy_targetdir}}/\$path" ] && [ ! -d "{{media_copy_targetdir}}/\$path" ]
+        if [ -e "{$targetDir}/\$path" ] && [ ! -d "{$targetDir}/\$path" ]
         then
             echo "Delete current file \$path"
-            rm "{{media_copy_targetdir}}/\$path"
+            rm "{$targetDir}/\$path"
         fi
         
-        if [ ! -e "{{media_copy_targetdir}}/\$path" ]
+        if [ ! -e "{$targetDir}/\$path" ]
         then 
             echo "Linking file \$path"
-            ln -s "{{media_copy_sourcedir}}/\$path" "{{media_copy_targetdir}}/\$path"
+            ln -s "{$sourceDir}/\$path" "{$targetDir}/\$path"
         fi
     fi
 done
 BASH;
-
-    set('media_copy_targetdir', $targetDir);
-    set('media_copy_sourcedir', $sourceDir);
 
     run($script);
 })->desc('Copy files between istances (without using local instance).');

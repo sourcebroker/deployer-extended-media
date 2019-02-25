@@ -56,19 +56,16 @@ task('media:copy', function () {
         $script = <<<BASH
 rsync {{media_rsync_flags}} --info=all0,name1 --dry-run {$mode} {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$sourceDir/' '$targetDir/' |
 while read path; do
-    if [ -d "{{media_copy_sourcedir}}/\$path" ]
+    if [ -d "{$sourceDir}/\$path" ]
     then
         echo "Creating directory \$path"
-        mkdir -p "{{media_copy_targetdir}}/\$path"
+        mkdir -p "{$targetDir}/\$path"
     else
         echo "Copying file \$path"
-        cp -L "{{media_copy_sourcedir}}/\$path" "{{media_copy_targetdir}}/\$path"
+        cp -L "{$sourceDir}/\$path" "{$targetDir}/\$path"
     fi
 done
 BASH;
-
-        set('media_copy_targetdir', $targetDir);
-        set('media_copy_sourcedir', $sourceDir);
 
         $result = run($script);
 
