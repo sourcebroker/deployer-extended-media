@@ -5,6 +5,7 @@ namespace Deployer;
 use SourceBroker\DeployerExtended\Configuration;
 
 task('media:link', function () {
+    $force = input()->getOption('force');
     $targetName = input()->getArgument('stage');
     $sourceName = input()->getArgument('targetStage');
 
@@ -54,18 +55,30 @@ task('media:link', function () {
     //     2.2. get directory name (on source instance) of file and create directories recursively (on destination instance)
     //     2.3. create link (with `ln -s`) in target instance targeting source file
     $script = <<<BASH
-cd {{media_cp_sourcedir}}
-find -L . -type f {{media_cp_includes}} {{media_cp_excludes}} -printf '
-[ -f "{{media_cp_targetdir}}/%p" ] || \
-[ -L "{{media_cp_targetdir}}/%p" ] || \
-( \
-    dirname "{{media_cp_targetdir}}/%p" | xargs -n 1 mkdir -p && \
-    ln -s "{{media_cp_sourcedir}}/%p" "{{media_cp_targetdir}}/%p" \
-)' | bash
+rsync {{media_rsync_flags}} --info=all0,name1 --dry-run {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$sourceDir/' '$targetDir/' |
+while read path; do
+    if [ -d "{{media_copy_sourcedir}}/\$path" ]
+    then
+        echo "Creating directory \$path"
+        mkdir -p "{{media_copy_targetdir}}/\$path"
+    else
+        if [ ! -z "{$force}" ] && [ -e "{{media_copy_targetdir}}/\$path" ] && [ ! -d "{{media_copy_targetdir}}/\$path" ]
+        then
+            echo "Delete current file \$path"
+            rm "{{media_copy_targetdir}}/\$path"
+        fi
+        
+        if [ ! -e "{{media_copy_targetdir}}/\$path" ]
+        then 
+            echo "Linking file \$path"
+            ln -s "{{media_copy_sourcedir}}/\$path" "{{media_copy_targetdir}}/\$path"
+        fi
+    fi
+done
 BASH;
 
-    set('media_cp_targetdir', $targetDir);
-    set('media_cp_sourcedir', $sourceDir);
+    set('media_copy_targetdir', $targetDir);
+    set('media_copy_sourcedir', $sourceDir);
 
     run($script);
 })->desc('Copy files between istances (without using local instance).');
