@@ -32,18 +32,16 @@ task('media:copy', function () {
     $targetEnv = Configuration::getEnvironment($targetName);
     $sourceEnv = Configuration::getEnvironment($sourceName);
 
-    $targetDir = test('[ -e ' . $targetEnv->get('deploy_path') . '/release ]')
-        ? $targetEnv->get('deploy_path') . '/release'
-        : $targetEnv->get('deploy_path') . '/current';
-    $sourceDir = test('[ -e ' . $sourceEnv->get('deploy_path') . '/release ]')
-        ? $sourceEnv->get('deploy_path') . '/release'
-        : $sourceEnv->get('deploy_path') . '/current';
+    $targetDir = $targetEnv->get('deploy_path') . '/' .
+        (test('[ -e ' . $targetEnv->get('deploy_path') . '/release ]') ? 'release' : 'current');
+    $sourceDir = $sourceEnv->get('deploy_path') . '/' .
+        (test('[ -e ' . $sourceEnv->get('deploy_path') . '/release ]') ? 'release' : 'current');
 
     $targetServer = Configuration::getServer($targetName);
     $sourceServer = Configuration::getServer($sourceName);
 
     if ($targetServer->getConfiguration()->getHost() == $sourceServer->getConfiguration()->getHost()
-        && $targetServer->getConfiguration()->getPort() == $sourceServer->getConfiguration()->getPort() ) {
+        && $targetServer->getConfiguration()->getPort() == $sourceServer->getConfiguration()->getPort()) {
         // use copy on the same server
 
         $mode = !$force
@@ -70,8 +68,7 @@ while read path; do
 done
 BASH;
 
-        $result = run($script);
-
+        run($script);
     } else {
         // use media:pull (rsync) command
         run('cd ' . $targetDir . ' && {{bin/php}} {{local/bin/deployer}} media:pull ' . $sourceName);
