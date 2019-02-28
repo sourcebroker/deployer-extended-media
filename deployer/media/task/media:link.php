@@ -29,19 +29,21 @@ task('media:link', function () {
         throw new \RuntimeException("The target instance is required for media:copy command. [Error code: 1488149866477]");
     }
 
+    $targetEnv = Configuration::getEnvironment($targetName);
+    $sourceEnv = Configuration::getEnvironment($sourceName);
+
+    $targetDir = test('[ -e ' . $targetEnv->get('deploy_path') . '/release ]')
+        ? $targetEnv->get('deploy_path') . '/release'
+        : $targetEnv->get('deploy_path') . '/current';
+    $sourceDir = test('[ -e ' . $sourceEnv->get('deploy_path') . '/release ]')
+        ? $sourceEnv->get('deploy_path') . '/release'
+        : $sourceEnv->get('deploy_path') . '/current';
+
     $targetServer = Configuration::getServer($targetName);
     $sourceServer = Configuration::getServer($sourceName);
 
-    $targetDir = test('[ -e '. $targetServer['deploy_path'] .'/release ]') ?
-        $targetServer['deploy_path'] . '/release' :
-        $targetServer['deploy_path'] . '/current';
-    $sourceDir = test('[ -e '. $sourceServer['deploy_path'] .'/release ]') ?
-        $sourceServer['deploy_path'] .'/release' :
-        $sourceServer['deploy_path'] .'/current';
-
-
-    if ($targetServer['server']['host'] != $sourceServer['server']['host']
-        || $targetServer['server']['port'] != $sourceServer['server']['port']) {
+    if ($targetServer->getConfiguration()->getHost() != $sourceServer->getConfiguration()->getHost()
+        || $targetServer->getConfiguration()->getPort() != $sourceServer->getConfiguration()->getPort() ) {
         throw new \RuntimeException(
             "FORBIDDEN: Creating links only allowed on same machine. [Error code: 1488234862247]"
         );
