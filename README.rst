@@ -236,10 +236,14 @@ Copy media between (remote) instances without using local machine.
 
 ::
 
-    media:copy target source
+    media:copy target source [--force]
 
 Commands are executed on target remote instance.
-In fact "media:pull source" is executed.
+If instances are placed on the same remote server then rsync on local files are called.
+If --force param is used then files will be overriden.
+Otherwise only missing files will be copied.
+
+If instances are placed on different remote servers then "media:pull source" is executed on target instance.
 
 media:link
 ++++++++++
@@ -257,6 +261,9 @@ For each file from source instance that is not exist on target instance:
 2. Symlink to file from source instance.
 
 So each file on target instance may be modified / deleted without effect on source.
+
+If --force param is used then files will be overriden.
+Otherwise only missing files will be linked.
 
 media:pull
 ++++++++++
