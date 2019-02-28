@@ -41,7 +41,7 @@ task('media:link', function () {
     $sourceServer = Configuration::getServer($sourceName);
 
     if ($targetServer->getConfiguration()->getHost() != $sourceServer->getConfiguration()->getHost()
-        || $targetServer->getConfiguration()->getPort() != $sourceServer->getConfiguration()->getPort() ) {
+        || $targetServer->getConfiguration()->getPort() != $sourceServer->getConfiguration()->getPort()) {
         throw new \RuntimeException(
             "FORBIDDEN: Creating links only allowed on same machine. [Error code: 1488234862247]"
         );
