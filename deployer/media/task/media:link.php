@@ -2,7 +2,7 @@
 
 namespace Deployer;
 
-use SourceBroker\DeployerExtended\Configuration;
+use SourceBroker\DeployerExtended\Utility\Configuration;
 
 task('media:link', function () {
     $force = input()->getOption('force');
