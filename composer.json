@@ -15,6 +15,7 @@
   ],
   "require": {
     "deployer/dist": "~4.3.1",
-    "sourcebroker/deployer-loader": "^1.0.0"
+    "sourcebroker/deployer-loader": "^1.0.0",
+    "sourcebroker/deployer-instance": "^0.1.5"
   }
 }
