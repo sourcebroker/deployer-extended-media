@@ -127,6 +127,14 @@ set('media_rsync_options', function () {
     return implode(' ', $optionsRsync);
 });
 
+set('media_rsync_flags', function () {
+    $config = array_merge_recursive(get('media_default'), get('media'));
+
+    return !empty($config['flags'])
+        ? '-'. $config['flags']
+        : '';
+});
+
 set('local/bin/deployer', function () {
     return './vendor/bin/dep';
 });

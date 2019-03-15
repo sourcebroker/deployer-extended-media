@@ -229,6 +229,42 @@ Is in fact:
 Media are not moved directly from target1 to target2. First its synchronised from target1 instance to current
 instance and then from current instance to target2 instance.
 
+media:copy
+++++++++++
+
+Copy media between (remote) instances without using local machine.
+
+::
+
+    media:copy target source [--force]
+
+Commands are executed on target remote instance.
+If instances are placed on the same remote server then rsync on local files are called.
+If --force param is used then files will be overriden.
+Otherwise only missing files will be copied.
+
+If instances are placed on different remote servers then "media:pull source" is executed on target instance.
+
+media:link
+++++++++++
+
+Only for remote instances placed on same machine.
+Command creates symbolic links on target instance pointing to files on source machine.
+
+::
+
+    media:link target source
+
+Commands are executed on target remote instance.
+For each file from source instance that is not exist on target instance:
+1. Create directory tree recursively.
+2. Symlink to file from source instance.
+
+So each file on target instance may be modified / deleted without effect on source.
+
+If --force param is used then files will be overriden.
+Otherwise only missing files will be linked.
+
 media:pull
 ++++++++++
 
