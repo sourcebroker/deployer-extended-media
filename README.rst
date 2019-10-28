@@ -207,28 +207,6 @@ Example configuration for TYPO3 CMS (typo3.org):
 Tasks
 -----
 
-media:move
-++++++++++
-
-Move media from target instance to second target instance using rsync and options from "media_default" and "media".
-
-Its a shortcut for two separated commands.
-::
-
-   media:move target1 target2
-
-
-Is in fact:
-::
-
-   media:pull target1
-   media:push target2
-
-**Notice!**
-
-Media are not moved directly from target1 to target2. First its synchronised from target1 instance to current
-instance and then from current instance to target2 instance.
-
 media:copy
 ++++++++++
 
@@ -238,10 +216,8 @@ Copy media between (remote) instances without using local machine.
 
     media:copy target source [--force]
 
-Commands are executed on target remote instance.
-If instances are placed on the same remote server then rsync on local files are called.
-If --force param is used then files will be overriden.
-Otherwise only missing files will be copied.
+Commands are executed on target remote instance. If instances are placed on the same remote server then rsync on local files are called.
+If --force param is used then files will be overriden. Otherwise only missing files will be copied.
 
 If instances are placed on different remote servers then "media:pull source" is executed on target instance.
 
