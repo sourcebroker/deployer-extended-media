@@ -6,18 +6,18 @@ use SourceBroker\DeployerInstance\Configuration;
 
 task('media:link', function () {
     $force = input()->getOption('force');
-    $targetName = input()->getArgument('stage');
-    $sourceName = input()->getArgument('targetStage');
+    $sourceName = input()->getArgument('stage');
+    $targetName = input()->getArgument('targetStage');
 
-    if (null === $sourceName) {
+    if (null === $targetName) {
         throw new \RuntimeException(
-            "You must set the source instance the media will be copied from second parameter server."
+            "You must set the target instance, the media will be copied to, as second parameter."
         );
     }
     if (null !== $targetName) {
         if ($targetName == 'live') {
             throw new \RuntimeException(
-                "FORBIDDEN: For security its forbidden to move media to live instance!"
+                "FORBIDDEN: For security its forbidden to copy media to live instance!"
             );
         }
         if ($targetName == 'local') {
@@ -27,6 +27,13 @@ task('media:link', function () {
         }
     } else {
         throw new \RuntimeException("The target instance is required for media:copy command. [Error code: 1488149866477]");
+    }
+
+    if (!askConfirmation(sprintf("Do you really want to link media from instance %s to instance %s",
+        $sourceName,
+        $targetName), true)) {
+        output()->writeln('Process aborted.');
+        die();
     }
 
     $targetEnv = Configuration::getEnvironment($targetName);
