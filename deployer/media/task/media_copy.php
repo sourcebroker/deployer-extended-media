@@ -77,5 +77,4 @@ BASH;
         // use media:pull (rsync) command
         run('cd ' . $targetDir . ' && {{bin/php}} {{local/bin/deployer}} media:pull ' . $sourceName);
     }
-})
-    ->desc('Copy files between instances (without using local instance).');
+})->desc('Synchronize files between instances.');

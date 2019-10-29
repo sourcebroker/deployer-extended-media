@@ -39,4 +39,4 @@ task('media:push', function () {
 
     $flags = isset($config['flags']) ? '-' . $config['flags'] : false;
     runLocally("rsync {$flags} -e 'ssh$port$identityFile' {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$dst/' '$user$host:$src/' ", 0);
-})->desc('Synchronize media between instances.');
+})->desc('Synchronize media from current instance to remote instance');

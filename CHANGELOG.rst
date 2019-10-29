@@ -11,6 +11,7 @@ master
 5) [TASK] Increase version of sourcebroker/deployer-instance.
 6) [TASK] Introduce var for hardcoded instances names.
 7) [TASK] Use Configuration object from sourcebroker/instance.
+8) [TASK] Improve task descriptions.
 
 4.0.0
 ~~~~~

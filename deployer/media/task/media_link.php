@@ -86,4 +86,4 @@ done
 BASH;
 
     run($script);
-})->desc('Copy files between istances (without using local instance).');
+})->desc('Synchronize files between instances using symlinks (to save space).');
