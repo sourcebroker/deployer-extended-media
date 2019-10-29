@@ -7,6 +7,7 @@ master
 1) [TASK][BREAKING] Remove media:move as its replaced by better media:copy.
 2) [TASK][BREAKING] Use sourcebroker/deployer-instance for instance data management.
 3) [BUGFIX] Change colon to underscore for Windows compatibility
+3) [TASK] Replace RuntimeException with GracefulShutdownException.
 
 4.0.0
 ~~~~~

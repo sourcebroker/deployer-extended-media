@@ -3,6 +3,7 @@
 namespace Deployer;
 
 use SourceBroker\DeployerInstance\Configuration;
+use Deployer\Exception\GracefulShutdownException;
 
 task('media:copy', function () {
     $force = input()->getOption('force');
@@ -10,30 +11,29 @@ task('media:copy', function () {
     $targetName = input()->getArgument('targetStage');
 
     if (null === $targetName) {
-        throw new \RuntimeException(
+        throw new GracefulShutdownException(
             "You must set the target instance, the media will be copied to, as second parameter."
         );
     }
     if (null !== $targetName) {
         if ($targetName == 'live') {
-            throw new \RuntimeException(
+            throw new GracefulShutdownException(
                 "FORBIDDEN: For security its forbidden to copy media to live instance!"
             );
         }
         if ($targetName == 'local') {
-            throw new \RuntimeException(
+            throw new GracefulShutdownException(
                 "FORBIDDEN: For synchro local media use: \ndep media:pull " . $sourceName
             );
         }
     } else {
-        throw new \RuntimeException("The target instance is required for media:copy command. [Error code: 1488149866477]");
+        throw new GracefulShutdownException("The target instance is required for media:copy command. [Error code: 1488149866477]");
     }
 
     if (!askConfirmation(sprintf("Do you really want to copy media from instance %s to instance %s",
         $sourceName,
         $targetName), true)) {
-        output()->writeln('Process aborted.');
-        die();
+        throw new GracefulShutdownException('Process aborted.');
     }
 
     $targetEnv = Configuration::getEnvironment($targetName);

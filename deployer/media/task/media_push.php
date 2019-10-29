@@ -1,16 +1,17 @@
 <?php
 
 namespace Deployer;
+use Deployer\Exception\GracefulShutdownException;
 
 task('media:push', function () {
     if (null === input()->getArgument('stage')) {
-        throw new \RuntimeException("The target instance is required for media:push command. [Error code: 1488150029848]");
+        throw new GracefulShutdownException("The target instance is required for media:push command. [Error code: 1488150029848]");
     }
     $config = array_merge_recursive(get('media_default'), get('media'));
 
     $src = get('deploy_path') . '/current';
     if (!trim($src)) {
-        throw new \RuntimeException('You need to specify a source path.');
+        throw new GracefulShutdownException('You need to specify a source path.');
     }
 
     $dst = get('media_rsync_dest');
@@ -18,7 +19,7 @@ task('media:push', function () {
         $dst = $dst();
     }
     if (!trim($dst)) {
-        throw new \RuntimeException('You need to specify a destination path.');
+        throw new GracefulShutdownException('You need to specify a destination path.');
     }
 
     $server = \Deployer\Task\Context::get()->getServer()->getConfiguration();
