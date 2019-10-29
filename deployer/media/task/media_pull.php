@@ -1,11 +1,20 @@
 <?php
 
 namespace Deployer;
+
 use Deployer\Exception\GracefulShutdownException;
+use SourceBroker\DeployerInstance\Configuration;
 
 task('media:pull', function () {
-    if (null === input()->getArgument('stage')) {
-        throw new GracefulShutdownException("The target instance is required for media:pull command. [Error code: 1488149981776]");
+    $sourceName = input()->getArgument('stage');
+    if ($sourceName !== null) {
+        if (get('default_stage') === get('instance_live_name', 'live')) {
+            throw new GracefulShutdownException(
+                "FORBIDDEN: For security its forbidden to pull media to live instance! [Error code: 1488149981777]"
+            );
+        }
+    } else {
+        throw new GracefulShutdownException("The source instance is required for media:pull command. [Error code: 1488149981776]");
     }
     $config = array_merge_recursive(get('media_default'), get('media'));
 
@@ -22,11 +31,11 @@ task('media:pull', function () {
         throw new \RuntimeException('You need to specify a destination path.');
     }
 
-    $server = \Deployer\Task\Context::get()->getServer()->getConfiguration();
-    $host = $server->getHost();
-    $port = $server->getPort() ? ' -p' . $server->getPort() : '';
-    $identityFile = $server->getPrivateKey() ? ' -i ' . $server->getPrivateKey() : '';
-    $user = !$server->getUser() ? '' : $server->getUser() . '@';
+    $sourceServer = Configuration::getServer($sourceName);
+    $host = $sourceServer->getConfiguration()->getHost();
+    $port = $sourceServer->getConfiguration()->getPort() ? ' -p' . $sourceServer->getConfiguration()->getPort() : '';
+    $identityFile = $sourceServer->getConfiguration()->getPrivateKey() ? ' -i ' . $sourceServer->getConfiguration()->getPrivateKey() : '';
+    $user = !$sourceServer->getConfiguration()->getUser() ? '' : $sourceServer->getConfiguration()->getUser() . '@';
 
     $flags = isset($config['flags']) ? '-' . $config['flags'] : false;
     runLocally("rsync {$flags} -e 'ssh$port$identityFile' {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$user$host:$src/' '$dst/'", 0);

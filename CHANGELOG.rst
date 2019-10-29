@@ -9,6 +9,8 @@ master
 3) [BUGFIX] Change colon to underscore for Windows compatibility
 4) [TASK] Replace RuntimeException with GracefulShutdownException.
 5) [TASK] Increase version of sourcebroker/deployer-instance.
+6) [TASK] Introduce var for hardcoded instances names.
+7) [TASK] Use Configuration object from sourcebroker/instance.
 
 4.0.0
 ~~~~~

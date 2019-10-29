@@ -1,11 +1,20 @@
 <?php
 
 namespace Deployer;
+
 use Deployer\Exception\GracefulShutdownException;
+use SourceBroker\DeployerInstance\Configuration;
 
 task('media:push', function () {
-    if (null === input()->getArgument('stage')) {
-        throw new GracefulShutdownException("The target instance is required for media:push command. [Error code: 1488150029848]");
+    $targetName = input()->getArgument('stage');
+    if (null !== $targetName) {
+        if ($targetName === get('instance_live_name', 'live')) {
+            throw new GracefulShutdownException(
+                "FORBIDDEN: For security its forbidden to push media to live instance!"
+            );
+        }
+    } else {
+        throw new GracefulShutdownException("The target instance is required for media:push command. [Error code: 1488149981776]");
     }
     $config = array_merge_recursive(get('media_default'), get('media'));
 
@@ -22,11 +31,11 @@ task('media:push', function () {
         throw new GracefulShutdownException('You need to specify a destination path.');
     }
 
-    $server = \Deployer\Task\Context::get()->getServer()->getConfiguration();
-    $host = $server->getHost();
-    $port = $server->getPort() ? ' -p' . $server->getPort() : '';
-    $identityFile = $server->getPrivateKey() ? ' -i ' . $server->getPrivateKey() : '';
-    $user = !$server->getUser() ? '' : $server->getUser() . '@';
+    $targetServer = Configuration::getServer($targetName);
+    $host = $targetServer->getConfiguration()->getHost();
+    $port = $targetServer->getConfiguration()->getPort() ? ' -p' . $targetServer->getConfiguration()->getPort() : '';
+    $identityFile = $targetServer->getConfiguration()->getPrivateKey() ? ' -i ' . $targetServer->getConfiguration()->getPrivateKey() : '';
+    $user = !$targetServer->getConfiguration()->getUser() ? '' : $targetServer->getConfiguration()->getUser() . '@';
 
     $flags = isset($config['flags']) ? '-' . $config['flags'] : false;
     runLocally("rsync {$flags} -e 'ssh$port$identityFile' {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$dst/' '$user$host:$src/' ", 0);

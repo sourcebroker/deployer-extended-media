@@ -12,22 +12,19 @@ task('media:copy', function () {
 
     if (null === $targetName) {
         throw new GracefulShutdownException(
-            "You must set the target instance, the media will be copied to, as second parameter."
+            "You must set the target instance, the media will be copied to, as second parameter. [Error code: 1488149866477]"
         );
-    }
-    if (null !== $targetName) {
-        if ($targetName == 'live') {
+    } else {
+        if ($targetName == get('instance_live_name', 'live')) {
             throw new GracefulShutdownException(
                 "FORBIDDEN: For security its forbidden to copy media to live instance!"
             );
         }
-        if ($targetName == 'local') {
+        if ($targetName == get('instance_local_name', 'local')) {
             throw new GracefulShutdownException(
                 "FORBIDDEN: For synchro local media use: \ndep media:pull " . $sourceName
             );
         }
-    } else {
-        throw new GracefulShutdownException("The target instance is required for media:copy command. [Error code: 1488149866477]");
     }
 
     if (!askConfirmation(sprintf("Do you really want to copy media from instance %s to instance %s",
