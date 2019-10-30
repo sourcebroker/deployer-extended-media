@@ -69,6 +69,6 @@ BASH;
         run($script);
     } else {
         // use media:pull (rsync) command
-        run('cd ' . $targetDir . ' && {{bin/php}} {{local/bin/deployer}} media:pull ' . $sourceName);
+        run('cd ' . $sourceDir . ' && {{bin/php}} {{local/bin/deployer}} media:push ' . $targetName);
     }
 })->desc('Synchronize files between instances');
