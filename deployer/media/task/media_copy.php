@@ -6,7 +6,6 @@ use SourceBroker\DeployerInstance\Configuration;
 use Deployer\Exception\GracefulShutdownException;
 
 task('media:copy', function () {
-    $force = input()->getOption('force');
     $sourceName = input()->getArgument('stage');
     $targetName = input()->getArgument('targetStage');
 
@@ -47,11 +46,6 @@ task('media:copy', function () {
     if ($targetServer->getConfiguration()->getHost() == $sourceServer->getConfiguration()->getHost()
         && $targetServer->getConfiguration()->getPort() == $sourceServer->getConfiguration()->getPort()) {
         // use copy on the same server
-
-        $mode = !$force
-            ? '--update'
-            : '';
-
         // 1. cd to source server document root
         // 2. find all files fulfiting filter conditions (-L param makes find to search in linked directories - for example shared/)
         //    for each found file:
@@ -59,7 +53,7 @@ task('media:copy', function () {
         //     2.2. get directory name (on source instance) of file and create directories recursively (on destination instance)
         //     2.3. create copy (with `cp -L`) in target instance targeting source file
         $script = <<<BASH
-rsync {{media_rsync_flags}} --info=all0,name1 --dry-run {$mode} {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$sourceDir/' '$targetDir/' |
+rsync {{media_rsync_flags}} --info=all0,name1 --dry-run --update {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$sourceDir/' '$targetDir/' |
 while read path; do
     if [ -d "{$sourceDir}/\$path" ]
     then
