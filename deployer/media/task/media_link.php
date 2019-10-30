@@ -81,4 +81,4 @@ done
 BASH;
 
     run($script);
-})->desc('Synchronize files between instances using symlinks (to save space).');
+})->desc('Synchronize files between instances using symlinks for each file (working only when instnaces on the same host)');
