@@ -38,5 +38,5 @@ task('media:pull', function () {
     $user = !$sourceServer->getUser() ? '' : $sourceServer->getUser() . '@';
 
     $flags = isset($config['flags']) ? '-' . $config['flags'] : false;
-    runLocally("rsync {$flags} -e 'ssh$port$identityFile' {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$user$host:$src/' '$dst/'", 0);
+    runLocally("rsync {$flags} -e 'ssh$port$identityFile' {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$user$host:$src/' '$dst/'");
 })->desc('Synchronize media from remote instance to current instance');
