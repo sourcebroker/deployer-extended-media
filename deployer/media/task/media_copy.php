@@ -32,19 +32,16 @@ task('media:copy', function () {
         throw new GracefulShutdownException('Process aborted.');
     }
 
-    $targetEnv = Configuration::getEnvironment($targetName);
-    $sourceEnv = Configuration::getEnvironment($sourceName);
+    $targetServer = Configuration::getHost($targetName);
+    $sourceServer = Configuration::getHost($sourceName);
 
-    $targetDir = $targetEnv->get('deploy_path') . '/' .
-        (test('[ -e ' . $targetEnv->get('deploy_path') . '/release ]') ? 'release' : 'current');
-    $sourceDir = $sourceEnv->get('deploy_path') . '/' .
-        (test('[ -e ' . $sourceEnv->get('deploy_path') . '/release ]') ? 'release' : 'current');
+    $targetDir = $targetServer->getConfig()->get('deploy_path') . '/' .
+        (test('[ -e ' . $targetServer->getConfig()->get('deploy_path') . '/release ]') ? 'release' : 'current');
+    $sourceDir = $sourceServer->getConfig()->get('deploy_path') . '/' .
+        (test('[ -e ' . $sourceServer->getConfig()->get('deploy_path') . '/release ]') ? 'release' : 'current');
 
-    $targetServer = Configuration::getServer($targetName);
-    $sourceServer = Configuration::getServer($sourceName);
-
-    if ($targetServer->getConfiguration()->getHost() == $sourceServer->getConfiguration()->getHost()
-        && $targetServer->getConfiguration()->getPort() == $sourceServer->getConfiguration()->getPort()) {
+    if ($targetServer->getRealHostname() == $sourceServer->getRealHostname()
+        && $targetServer->getPort() == $sourceServer->getPort()) {
         // use copy on the same server
         // 1. cd to source server document root
         // 2. find all files fulfiting filter conditions (-L param makes find to search in linked directories - for example shared/)
