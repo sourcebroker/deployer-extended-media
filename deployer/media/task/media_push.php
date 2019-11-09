@@ -31,11 +31,11 @@ task('media:push', function () {
         throw new GracefulShutdownException('You need to specify a destination path.');
     }
 
-    $targetServer = Configuration::getServer($targetName);
-    $host = $targetServer->getConfiguration()->getHost();
-    $port = $targetServer->getConfiguration()->getPort() ? ' -p' . $targetServer->getConfiguration()->getPort() : '';
-    $identityFile = $targetServer->getConfiguration()->getPrivateKey() ? ' -i ' . $targetServer->getConfiguration()->getPrivateKey() : '';
-    $user = !$targetServer->getConfiguration()->getUser() ? '' : $targetServer->getConfiguration()->getUser() . '@';
+    $targetServer = Configuration::getHost($targetName);
+    $host = $targetServer->getRealHostname();
+    $port = $targetServer->getPort() ? ' -p' . $targetServer->getPort() : '';
+    $identityFile = $targetServer->getIdentityFile() ? ' -i ' . $targetServer->getIdentityFile() : '';
+    $user = !$targetServer->getUser() ? '' : $targetServer->getUser() . '@';
 
     $flags = isset($config['flags']) ? '-' . $config['flags'] : false;
     runLocally("rsync {$flags} -e 'ssh$port$identityFile' {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$dst/' '$user$host:$src/' ", 0);

@@ -31,11 +31,11 @@ task('media:pull', function () {
         throw new \RuntimeException('You need to specify a destination path.');
     }
 
-    $sourceServer = Configuration::getServer($sourceName);
-    $host = $sourceServer->getConfiguration()->getHost();
-    $port = $sourceServer->getConfiguration()->getPort() ? ' -p' . $sourceServer->getConfiguration()->getPort() : '';
-    $identityFile = $sourceServer->getConfiguration()->getPrivateKey() ? ' -i ' . $sourceServer->getConfiguration()->getPrivateKey() : '';
-    $user = !$sourceServer->getConfiguration()->getUser() ? '' : $sourceServer->getConfiguration()->getUser() . '@';
+    $sourceServer = Configuration::getHost($sourceName);
+    $host = $sourceServer->getRealHostname();
+    $port = $sourceServer->getPort() ? ' -p' . $sourceServer->getPort() : '';
+    $identityFile = $sourceServer->getIdentityFile() ? ' -i ' . $sourceServer->getIdentityFile() : '';
+    $user = !$sourceServer->getUser() ? '' : $sourceServer->getUser() . '@';
 
     $flags = isset($config['flags']) ? '-' . $config['flags'] : false;
     runLocally("rsync {$flags} -e 'ssh$port$identityFile' {{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}} '$user$host:$src/' '$dst/'", 0);
