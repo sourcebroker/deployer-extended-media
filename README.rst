@@ -22,13 +22,14 @@ What does it do?
 
 The package provides additional tasks for deployer (deployer.org) for synchronizing media between instances.
 
-**NOTE! Its tested only with Deployer 4.3.1!**
-
 How this can be useful for me?
 ------------------------------
 
-The most useful is "dep media:pull [target]" task which allows you to pull media from target instance with rsync.
+The most useful is ``dep media:pull [source]`` task which allows you to pull media from source instance with rsync.
 Having possibility to fast synchronise media can speed up instance dependent development.
+
+There are also two additional useful tasks which allows to copy or symlink media between remote instances. For example
+you can use ``dep media:link [source] --options:target=beta`` to create symlinks for each single file (cp -Rs).
 
 Installation
 ------------
@@ -210,16 +211,17 @@ Tasks
 media:copy
 ++++++++++
 
-Copy media between (remote) instances without using local machine.
+Copy media between (remote) instances.
 
 ::
 
-    media:copy target source [--force]
+    dep media:copy [source] --options=target:[target]
 
-Commands are executed on target remote instance. If instances are placed on the same remote server then rsync on local files are called.
-If --force param is used then files will be overriden. Otherwise only missing files will be copied.
+Commands are executed on target remote instance. If instances are placed on the same remote server then rsync on
+local files are called. If instances are placed on different remote servers then ``media:pull [source]`` is executed
+on target instance.
 
-If instances are placed on different remote servers then "media:pull source" is executed on target instance.
+Example: ``dep media:copy live --options=target:beta``
 
 media:link
 ++++++++++
@@ -229,27 +231,37 @@ Command creates symbolic links on target instance pointing to files on source ma
 
 ::
 
-    media:link target source
+    media:link [source] --options=target:[target]
 
-Commands are executed on target remote instance.
-For each file from source instance that is not exist on target instance:
+For each file from source instance that does not exist on target instance:
 1. Create directory tree recursively.
 2. Symlink to file from source instance.
 
 So each file on target instance may be modified / deleted without effect on source.
 
-If --force param is used then files will be overriden.
-Otherwise only missing files will be linked.
+Example: ``dep media:link live --options=target:beta``
 
 media:pull
 ++++++++++
 
 Pull media from target instance to current instance using rsync and options from "media_default" and "media".
 
+::
+
+    dep media:pull [source]
+
+Example: ``dep media:pull live``
+
 media:push
 ++++++++++
 
 Pull media from current instance to target instance using rsync and options from "media_default" and "media".
+
+::
+
+    dep media:push [source]
+
+Example: ``dep media:push live``
 
 
 Changelog
