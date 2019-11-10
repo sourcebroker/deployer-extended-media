@@ -124,14 +124,14 @@ set('media_rsync_options', function () {
     foreach ($options as $option) {
         $optionsRsync[] = "--$option";
     }
-    return implode(' ', $optionsRsync);
+    return (!empty($optionsRsync) ? ' ' : '') . implode(' ', $optionsRsync);
 });
 
 set('media_rsync_flags', function () {
     $config = array_merge_recursive(get('media_default'), get('media'));
 
     return !empty($config['flags'])
-        ? '-'. $config['flags']
+        ? ' -' . $config['flags']
         : '';
 });
 

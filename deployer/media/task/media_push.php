@@ -46,5 +46,4 @@ task('media:push', function () {
         . ' '
         . escapeshellarg($user . $host . ':' . $src)
     );
-
 })->desc('Synchronize media from current instance to remote instance');
