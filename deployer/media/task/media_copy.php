@@ -2,16 +2,17 @@
 
 namespace Deployer;
 
+use SourceBroker\DeployerExtendedMedia\Utility\ConsoleUtility;
 use SourceBroker\DeployerInstance\Configuration;
 use Deployer\Exception\GracefulShutdownException;
 
 task('media:copy', function () {
     $sourceName = input()->getArgument('stage');
-    $targetName = input()->getOption('media-target');
+    $targetName = (new ConsoleUtility)->getOption('target');
 
     if (null === $targetName) {
         throw new GracefulShutdownException(
-            "You must set the target instance in option '--media-target=', the media will be copied to, as second parameter. [Error code: 1488149866477]"
+            "You must set the target instance in option '--options=target:[target]', the media will be copied to, as second parameter. [Error code: 1488149866477]"
         );
     } else {
         if ($targetName == get('instance_live_name', 'live')) {
