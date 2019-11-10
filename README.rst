@@ -25,11 +25,11 @@ The package provides additional tasks for deployer (deployer.org) for synchroniz
 How this can be useful for me?
 ------------------------------
 
-The most useful is ``dep media:pull [source]`` task which allows you to pull media from source instance with rsync.
-Having possibility to fast synchronise media can speed up instance dependent development.
+The most useful is ``dep media:pull [source]`` task which allows you to pull media from source instance to current
+instance with rsync.
 
 There are also two additional useful tasks which allows to copy or symlink media between remote instances. For example
-you can use ``dep media:link [source] --options:target=beta`` to create symlinks for each single file (equivalent of cp -Rs).
+you can use ``dep media:link [source] --options:target=[target]`` to create symlinks for each single file (equivalent of cp -Rs).
 
 Installation
 ------------
