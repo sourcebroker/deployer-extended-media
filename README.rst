@@ -29,7 +29,7 @@ The most useful is ``dep media:pull [source]`` task which allows you to pull med
 instance with rsync.
 
 There are also two additional useful tasks which allows to copy or symlink media between remote instances. For example
-you can use ``dep media:link [source] --options:target=[target]`` to create symlinks for each single file (equivalent of cp -Rs).
+you can use ``dep media:link [source] --options=target:[target]`` to create symlinks for each single file (equivalent of cp -Rs).
 
 Installation
 ------------

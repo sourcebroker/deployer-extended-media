@@ -2,10 +2,15 @@
 Changelog
 ---------
 
+6.0.1
+~~~~~
+
+1) [BUGFIX] Docs fix.
+
 6.0.0
 ~~~~~
 
-1) [TASK] Compatibility to Deployer 6.
+1) [TASK][BREAKING] Compatibility to Deployer 6.
 
 5.0.0
 ~~~~~
