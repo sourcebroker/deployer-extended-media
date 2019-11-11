@@ -2,6 +2,11 @@
 Changelog
 ---------
 
+6.0.2
+~~~~~
+
+1) [BUGFIX] Fix dependencies to "sourcebroker/deployer-loader" and "sourcebroker/deployer-instance".
+
 6.0.1
 ~~~~~
 
