@@ -13,6 +13,11 @@
       "email": "k.szymukowicz@gmail.com"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "SourceBroker\\DeployerExtendedMedia\\": "src/"
+    }
+  },
   "require": {
     "deployer/dist": "^6.4.0",
     "sourcebroker/deployer-loader": "dev-compatibility_6.4",
