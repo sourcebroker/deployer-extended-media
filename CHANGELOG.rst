@@ -2,10 +2,10 @@
 Changelog
 ---------
 
-master
-~~~~~~
+6.0.0
+~~~~~
 
-1) [TASK] Compatibility to Deployer 6
+1) [TASK] Compatibility to Deployer 6.
 
 5.0.0
 ~~~~~
