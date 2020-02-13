@@ -38,10 +38,11 @@ task('media:push', function () {
     $user = !$targetServer->getUser() ? '' : $targetServer->getUser() . '@';
 
     $sshOptions = '';
-    if (!empty($targetName->getSshArguments())) {
+    if (!empty($targetServer->getSshArguments())) {
         $sshOptions = '-e ' . escapeshellarg('ssh ' . $targetServer->getSshArguments()->getCliArguments());
     }
     runLocally('rsync ' . $sshOptions . ' {{media_rsync_flags}}{{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}}'
+        . ' '
         . escapeshellarg($dst)
         . ' '
         . escapeshellarg($user . $host . ':' . $src)

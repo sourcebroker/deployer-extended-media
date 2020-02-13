@@ -2,6 +2,11 @@
 Changelog
 ---------
 
+6.0.3
+~~~~~
+
+1) [BUGFIX] Fix media:push task.
+
 6.0.2
 ~~~~~
 
