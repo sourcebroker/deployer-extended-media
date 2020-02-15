@@ -6,6 +6,8 @@ master
 ~~~~~
 
 1) [TASK][BREAKING] remove not needed dependency to sourcebroker/deployer-loader.
+2) [TASK][BREAKING] Add protections switches (media_allow_pull_live, media_allow_push_live, media_allow_link_live,
+   media_allow_copy_live) to allow push, copy to live instance.
 
 6.0.3
 ~~~~~

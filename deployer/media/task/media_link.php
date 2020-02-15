@@ -15,7 +15,7 @@ task('media:link', function () {
             "You must set the target instance in option '--options=target:[target]', the media will be copied to, as second parameter. [Error code: 1488149866477]"
         );
     } else {
-        if ($targetName == get('instance_live_name', 'live')) {
+        if (!get('media_allow_link_live', false) && $targetName == get('instance_live_name', 'live')) {
             throw new GracefulShutdownException(
                 "FORBIDDEN: For security its forbidden to copy media to live instance!"
             );
@@ -79,4 +79,4 @@ done
 BASH;
 
     run($script);
-})->desc('Synchronize files between instances using symlinks for each file (working only when instances on the same host)');
+})->desc('Synchronize files between instances using symlinks for each file (working only when instances on the same host');

@@ -9,9 +9,10 @@ use SourceBroker\DeployerInstance\Configuration;
 task('media:push', function () {
     $targetName = input()->getArgument('stage');
     if (null !== $targetName) {
-        if ($targetName === get('instance_live_name', 'live')) {
+        if (!get('media_allow_push_live', false) && $targetName === get('instance_live_name', 'live')) {
             throw new GracefulShutdownException(
-                "FORBIDDEN: For security its forbidden to push media to live instance!"
+                'FORBIDDEN: For security its forbidden to push media to "' .
+                get('instance_live_name', 'live') . '" instance!'
             );
         }
     } else {
@@ -47,4 +48,4 @@ task('media:push', function () {
         . ' '
         . escapeshellarg($user . $host . ':' . $src)
     );
-})->desc('Synchronize media from current instance to remote instance');
+})->desc('Synchronize media from local instance to remote instance');
