@@ -2,6 +2,11 @@
 Changelog
 ---------
 
+master
+~~~~~
+
+1) [TASK][BREAKING] remove not needed dependency to sourcebroker/deployer-loader.
+
 6.0.3
 ~~~~~
 
