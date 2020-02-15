@@ -9,7 +9,7 @@ use SourceBroker\DeployerInstance\Configuration;
 task('media:pull', function () {
     $sourceName = input()->getArgument('stage');
     if (null !== $sourceName) {
-        if (!get('media_allow_pull_live', false) && get('current_stage') === get('instance_live_name', 'live')) {
+        if (!get('media_allow_pull_live', false) && get('default_stage') === get('instance_live_name', 'live')) {
             throw new GracefulShutdownException(
                 "FORBIDDEN: For security its forbidden to pull media to live instance! [Error code: 1488149981777]"
             );
