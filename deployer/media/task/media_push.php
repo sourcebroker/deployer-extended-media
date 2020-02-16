@@ -19,7 +19,8 @@ task('media:push', function () {
         }
         if (!get('media_allow_push_live_force', false)) {
             write("<error>\n\n");
-            write(sprintf("You going to push media to top instance \"%s\". ", $targetName));
+            write(sprintf("You going to push media from instance: \"%s\" to top instance: \"%s\". ",
+                get('default_stage'), $targetName));
             write("This can be destructive.\n\n");
             write("</error>");
             if (!askConfirmation('Do you really want to continue?', false)) {

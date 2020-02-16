@@ -24,7 +24,8 @@ task('media:copy', function () {
         if (!get('media_allow_copy_live_force', false)) {
             $doNotAskAgainForLive = true;
             write("<error>\n\n");
-            write(sprintf("You going to copy media to top instance \"%s\". ", $targetName));
+            write(sprintf("You going to copy media from instance: \"%s\" to top instance: \"%s\". ",
+                $sourceName, $targetName));
             write("This can be destructive.\n\n");
             write("</error>");
             if (!askConfirmation('Do you really want to continue?', false)) {

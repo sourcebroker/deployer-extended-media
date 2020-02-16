@@ -24,7 +24,8 @@ task('media:link', function () {
         if (!get('media_allow_link_live_force', false)) {
             $doNotAskAgainForLive = true;
             write("<error>\n\n");
-            write(sprintf("You going to link media to top instance \"%s\". ", $targetName));
+            write(sprintf("You going to link media from instance: \"%s\" to top instance: \"%s\". ",
+                $sourceName, $targetName));
             write("This can be destructive.\n\n");
             write("</error>");
             if (!askConfirmation('Do you really want to continue?', false)) {
