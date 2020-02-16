@@ -7,27 +7,43 @@ use SourceBroker\DeployerInstance\Configuration;
 use Deployer\Exception\GracefulShutdownException;
 
 task('media:link', function () {
-    $sourceName = input()->getArgument('stage');
+    $sourceName = get('argument_stage');
     $targetName = (new ConsoleUtility)->getOption('target');
-
     if (null === $targetName) {
         throw new GracefulShutdownException(
             "You must set the target instance in option '--options=target:[target]', the media will be copied to, as second parameter. [Error code: 1488149866477]"
         );
-    } else {
-        if (!get('media_allow_link_live', false) && $targetName == get('instance_live_name', 'live')) {
+    }
+    $doNotAskAgainForLive = false;
+    if ($targetName == get('instance_live_name', 'live')) {
+        if (!get('media_allow_link_live', true)) {
             throw new GracefulShutdownException(
-                "FORBIDDEN: For security its forbidden to copy media to live instance!"
+                'FORBIDDEN: For security its forbidden to link media to top instance: "' .
+                get('instance_live_name', 'live') . '"!'
             );
         }
-        if ($targetName == get('instance_local_name', 'local')) {
-            throw new GracefulShutdownException(
-                "FORBIDDEN: For synchro local media use: \ndep media:pull " . $sourceName
-            );
+        if (!get('media_allow_link_live_force', false)) {
+            $doNotAskAgainForLive = true;
+            write("<error>\n\n");
+            write(sprintf("You going to link media to top instance \"%s\". ", get('argument_stage')));
+            write("This can be destructive.\n\n");
+            write("</error>");
+            if (!askConfirmation('Do you really want to continue?', false)) {
+                throw new GracefulShutdownException('Process aborted.');
+            }
+            if (!askConfirmation('Are you sure?', false)) {
+                throw new GracefulShutdownException('Process aborted.');
+            }
         }
     }
 
-    if (!askConfirmation(sprintf("Do you really want to link media from instance %s to instance %s",
+    if ($targetName == get('instance_local_name', 'local')) {
+        throw new GracefulShutdownException(
+            "FORBIDDEN: For synchro local media use: \ndep media:pull " . $sourceName
+        );
+    }
+
+    if (!$doNotAskAgainForLive  && !askConfirmation(sprintf("Do you really want to link media from instance %s to instance %s",
         $sourceName,
         $targetName), true)) {
         throw new GracefulShutdownException('Process aborted.');
