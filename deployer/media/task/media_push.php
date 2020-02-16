@@ -14,13 +14,12 @@ task('media:push', function () {
     if ($targetName === get('instance_live_name', 'live')) {
         if (!get('media_allow_push_live', true)) {
             throw new GracefulShutdownException(
-                'FORBIDDEN: For security its forbidden to push media to top instance: "' .
-                get('instance_live_name', 'live') . '"!'
+                'FORBIDDEN: For security its forbidden to push media to top instance: "' . $targetName . '"!'
             );
         }
         if (!get('media_allow_push_live_force', false)) {
             write("<error>\n\n");
-            write(sprintf("You going to push media to top instance \"%s\". ", get('argument_stage')));
+            write(sprintf("You going to push media to top instance \"%s\". ", $targetName));
             write("This can be destructive.\n\n");
             write("</error>");
             if (!askConfirmation('Do you really want to continue?', false)) {
