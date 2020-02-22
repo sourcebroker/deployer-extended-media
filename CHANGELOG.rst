@@ -2,6 +2,11 @@
 Changelog
 ---------
 
+7.0.1
+~~~~~~
+
+1) [BUGFIX] Fix for normalize file regexp.
+
 7.0.0
 ~~~~~
 
