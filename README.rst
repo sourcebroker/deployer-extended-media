@@ -221,6 +221,11 @@ Commands are executed on target remote instance. If instances are placed on the 
 local files are called. If instances are placed on different remote servers then ``media:pull [source]`` is executed
 on target instance.
 
+Copy to instance defined in ``instance_live_name`` (default ``live``) is special case.
+If you copy to highest instance then by default you will be asked twice if you really want to.
+You can disable asking by setting ``media_allow_copy_live_force`` to ``true``.
+You can also forbid coping to live instance by setting ``media_allow_copy_live`` to ``false``.
+
 Example: ``dep media:copy live --options=target:beta``
 
 media:link
@@ -239,6 +244,11 @@ For each file from source instance that does not exist on target instance:
 
 So each file on target instance may be modified / deleted without effect on source.
 
+Linking to instance defined in ``instance_live_name`` (default ``live``) is special case.
+If you link to highest instance then by default you will be asked twice if you really want to.
+You can disable asking by setting ``media_allow_link_live_force`` to ``true``.
+You can also forbid linking to live instance by setting ``media_allow_link_live`` to ``false``.
+
 Example: ``dep media:link live --options=target:beta``
 
 media:pull
@@ -252,6 +262,11 @@ Pull media from source instance to current instance using rsync and options from
 
 Example: ``dep media:pull live``
 
+Pulling to instance defined in ``instance_live_name`` (default ``live``) is special case.
+If you pull to highest instance then by default you will be asked twice if you really want to.
+You can disable asking by setting ``media_allow_pull_live_force`` to ``true``.
+You can also forbid pulling to live instance by setting ``media_allow_pull_live`` to ``false``.
+
 media:push
 ++++++++++
 
@@ -260,6 +275,11 @@ Pull media from current instance to target instance using rsync and options from
 ::
 
     dep media:push [target]
+
+Pushing to instance defined in ``instance_live_name`` (default ``live``) is special case.
+If you push to highest instance then by default you will be asked twice if you really want to.
+You can disable asking by setting ``media_allow_push_live_force`` to ``true``.
+You can also forbid puhsing to live instance by setting ``media_allow_push_live`` to ``false``.
 
 Example: ``dep media:push beta``
 
