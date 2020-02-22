@@ -41,7 +41,7 @@ Changelog
 6) [TASK] Introduce var for hardcoded instances names.
 7) [TASK] Use Configuration object from sourcebroker/instance.
 8) [TASK] Improve task descriptions.
-8) [BUGFIX] media:copy should push when doing synchro on different instances.
+9) [BUGFIX] media:copy should push when doing synchro on different instances.
 
 4.0.0
 ~~~~~
