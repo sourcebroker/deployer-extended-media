@@ -6,6 +6,9 @@ use Deployer\Exception\GracefulShutdownException;
 use SourceBroker\DeployerExtendedDatabase\Utility\FileUtility;
 use SourceBroker\DeployerInstance\Configuration;
 
+/*
+ * @see https://github.com/sourcebroker/deployer-extended-media#media-push
+ */
 task('media:push', function () {
     $targetName = get('argument_stage');
     if (null === $targetName) {

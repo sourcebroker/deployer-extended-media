@@ -6,6 +6,9 @@ use SourceBroker\DeployerExtendedMedia\Utility\ConsoleUtility;
 use SourceBroker\DeployerInstance\Configuration;
 use Deployer\Exception\GracefulShutdownException;
 
+/*
+ * @see https://github.com/sourcebroker/deployer-extended-media#media-link
+ */
 task('media:link', function () {
     $sourceName = get('argument_stage');
     $targetName = (new ConsoleUtility)->getOption('target');
