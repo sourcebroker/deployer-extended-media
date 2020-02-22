@@ -5,10 +5,10 @@ Changelog
 master
 ~~~~~
 
-1) [TASK][BREAKING] remove not needed dependency to sourcebroker/deployer-loader.
-2) [TASK][BREAKING] Add protections switches (media_allow_pull_live, media_allow_push_live, media_allow_link_live,
+1) [TASK][BREAKING] Add protections switches (media_allow_pull_live, media_allow_push_live, media_allow_link_live,
    media_allow_copy_live) to allow push, copy to live instance.
-3) [TASK] Protect copying/pushing/pulling media to top level instance.
+2) [TASK] Protect copying/pushing/pulling media to top level instance.
+3) [BUGFIX] Fix normalizeFilename regexp.
 
 6.0.3
 ~~~~~
