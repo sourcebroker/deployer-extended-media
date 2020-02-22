@@ -2,7 +2,7 @@
 Changelog
 ---------
 
-master
+7.0.0
 ~~~~~
 
 1) [TASK][BREAKING] Add protections switches (media_allow_pull_live, media_allow_push_live, media_allow_link_live,
