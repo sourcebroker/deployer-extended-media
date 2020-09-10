@@ -22,8 +22,11 @@ task('media:pull', function () {
         }
         if (!get('media_allow_pull_live_force', false)) {
             write("<error>\n\n");
-            write(sprintf("You going to pull media from instance: \"%s\" to top instance: \"%s\". ",
-                $sourceName, get('default_stage')));
+            write(sprintf(
+                "You going to pull media from instance: \"%s\" to top instance: \"%s\". ",
+                $sourceName,
+                get('default_stage')
+            ));
             write("This can be destructive.\n\n");
             write("</error>");
             if (!askConfirmation('Do you really want to continue?', false)) {
@@ -57,7 +60,8 @@ task('media:pull', function () {
     if (!empty($sourceServer->getSshArguments())) {
         $sshOptions = '-e ' . escapeshellarg('ssh ' . $sourceServer->getSshArguments()->getCliArguments());
     }
-    runLocally('rsync ' . $sshOptions . ' {{media_rsync_flags}}{{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}}'
+    runLocally(
+        'rsync ' . $sshOptions . ' {{media_rsync_flags}}{{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}}'
         . ' '
         . escapeshellarg($user . $host . ':' . $src)
         . ' '
