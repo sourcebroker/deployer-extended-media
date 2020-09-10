@@ -34,7 +34,7 @@ task('media:pull', function () {
             }
         }
     }
-    $src = get('deploy_path') . '/current';
+    $src = get('deploy_path') . '/' . (test('[ -L {{deploy_path}}/release ]') ? 'release' : 'current');
     if (!trim($src)) {
         throw new GracefulShutdownException('You need to specify a source path.');
     }
