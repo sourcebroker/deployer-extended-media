@@ -2,6 +2,12 @@
 Changelog
 ---------
 
+7.1.0
+~~~~~~
+
+1) [FEATURE] Use "release" folder for push/pull if available when calling those task.
+2) [TASK] Apply Style CI fixes.
+
 7.0.1
 ~~~~~~
 

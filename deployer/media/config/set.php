@@ -5,7 +5,8 @@ namespace Deployer;
 /*
  * Based on https://github.com/deployphp/recipes/blob/master/recipes/rsync.php
  */
-set('media_default',
+set(
+    'media_default',
     [
         'exclude' => [],
         'exclude-case-insensitive' => [
@@ -41,7 +42,8 @@ set('media_default',
         'flags' => 'rz',
         'options' => ['copy-links', 'keep-dirlinks', 'safe-links'],
         'timeout' => 0,
-    ]);
+    ]
+);
 
 
 set('media_rsync_dest', getcwd());
