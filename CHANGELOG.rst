@@ -2,8 +2,8 @@
 Changelog
 ---------
 
-master
-~~~~~~
+8.0.0
+~~~~~
 
 1) [BUGFIX] Fix wrong namespace.
 2) [TASK] Use more strict comparison.
