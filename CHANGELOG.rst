@@ -2,6 +2,11 @@
 Changelog
 ---------
 
+master
+~~~~~~
+
+1) [BUGFIX] Fix wrong namespace.
+
 7.1.0
 ~~~~~~
 

@@ -3,7 +3,7 @@
 namespace Deployer;
 
 use Deployer\Exception\GracefulShutdownException;
-use SourceBroker\DeployerExtendedDatabase\Utility\FileUtility;
+use SourceBroker\DeployerExtendedMedia\Utility\FileUtility;
 use SourceBroker\DeployerInstance\Configuration;
 
 /*

@@ -1,10 +1,10 @@
 <?php
 
-namespace SourceBroker\DeployerExtendedDatabase\Utility;
+namespace SourceBroker\DeployerExtendedMedia\Utility;
 
 /**
  * Class FileUtility
- * @package SourceBroker\DeployerExtendedDatabase\Utility
+ * @package SourceBroker\DeployerExtendedMedia\Utility
  */
 class FileUtility
 {
