@@ -18,7 +18,7 @@ task('media:copy', function () {
         );
     }
     $doNotAskAgainForLive = false;
-    if ($targetName == get('instance_live_name', 'live')) {
+    if ($targetName === get('instance_live_name', 'live')) {
         if (!get('media_allow_copy_live', true)) {
             throw new GracefulShutdownException(
                 'FORBIDDEN: For security its forbidden to copy media to top instance: "' . $targetName . '"!'
@@ -43,7 +43,7 @@ task('media:copy', function () {
         }
     }
 
-    if (!$doNotAskAgainForLive && $targetName == get('instance_local_name', 'local')) {
+    if (!$doNotAskAgainForLive && $targetName === get('instance_local_name', 'local')) {
         throw new GracefulShutdownException(
             "FORBIDDEN: For synchro local media use: \ndep media:pull " . $sourceName
         );
@@ -65,8 +65,8 @@ task('media:copy', function () {
     $sourceDir = $sourceServer->getConfig()->get('deploy_path') . '/' .
         (test('[ -e ' . $sourceServer->getConfig()->get('deploy_path') . '/release ]') ? 'release' : 'current');
 
-    if ($targetServer->getRealHostname() == $sourceServer->getRealHostname()
-        && $targetServer->getPort() == $sourceServer->getPort()) {
+    if ($targetServer->getRealHostname() === $sourceServer->getRealHostname()
+        && $targetServer->getPort() === $sourceServer->getPort()) {
         // use copy on the same server
         // 1. cd to source server document root
         // 2. find all files fulfiting filter conditions (-L param makes find to search in linked directories - for example shared/)

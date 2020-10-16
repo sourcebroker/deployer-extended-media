@@ -18,7 +18,7 @@ task('media:link', function () {
         );
     }
     $doNotAskAgainForLive = false;
-    if ($targetName == get('instance_live_name', 'live')) {
+    if ($targetName === get('instance_live_name', 'live')) {
         if (!get('media_allow_link_live', true)) {
             throw new GracefulShutdownException(
                 'FORBIDDEN: For security its forbidden to link media to top instance: "' . $targetName . '"!'
@@ -43,7 +43,7 @@ task('media:link', function () {
         }
     }
 
-    if ($targetName == get('instance_local_name', 'local')) {
+    if ($targetName === get('instance_local_name', 'local')) {
         throw new GracefulShutdownException(
             "FORBIDDEN: For synchro local media use: \ndep media:pull " . $sourceName
         );
@@ -65,8 +65,8 @@ task('media:link', function () {
     $sourceDir = $sourceServer->getConfig()->get('deploy_path') . '/' .
         (test('[ -e ' . $sourceServer->getConfig()->get('deploy_path') . '/release ]') ? 'release' : 'current');
 
-    if ($targetServer->getRealHostname() != $sourceServer->getRealHostname()
-        || $targetServer->getPort() != $sourceServer->getPort()) {
+    if ($targetServer->getRealHostname() !== $sourceServer->getRealHostname()
+        || $targetServer->getPort() !== $sourceServer->getPort()) {
         throw new GracefulShutdownException(
             "FORBIDDEN: Creating links only allowed on same machine. [Error code: 1488234862247]"
         );

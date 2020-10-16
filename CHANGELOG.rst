@@ -6,6 +6,7 @@ master
 ~~~~~~
 
 1) [BUGFIX] Fix wrong namespace.
+2) [TASK] Use more strict comparison.
 
 7.1.0
 ~~~~~~
