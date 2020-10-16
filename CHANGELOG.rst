@@ -7,6 +7,7 @@ master
 
 1) [BUGFIX] Fix wrong namespace.
 2) [TASK] Use more strict comparison.
+3) [TASK] Add ddev.
 
 7.1.0
 ~~~~~~
