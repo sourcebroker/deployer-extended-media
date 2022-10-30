@@ -7,6 +7,7 @@ Changelog
 
 1) [TASK][BREAKING] Update dependency to ``sourcebroker/deployer-loader`` which introduce load folder/files
    alphabetically.
+2) [TASK] Remove dropped styleci support.
 
 8.0.0
 ~~~~~
