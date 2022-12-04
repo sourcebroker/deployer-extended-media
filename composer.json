@@ -19,8 +19,8 @@
     }
   },
   "require": {
-    "deployer/dist": "^6.4.0",
-    "sourcebroker/deployer-instance": "^4.0.0",
-    "sourcebroker/deployer-loader": "^3.0.0"
+    "deployer/deployer": "^7.0.0",
+    "sourcebroker/deployer-instance": "^5.0.0",
+    "sourcebroker/deployer-loader": "^4.0.0"
   }
 }

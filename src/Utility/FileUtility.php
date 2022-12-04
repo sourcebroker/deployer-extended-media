@@ -12,7 +12,7 @@ class FileUtility
      * @param $filename
      * @return string
      */
-    public function normalizeFilename($filename)
+    public function normalizeFilename($filename): string
     {
         return preg_replace('/^[^a-zA-Z0-9_]+$/', '', $filename);
     }
@@ -21,7 +21,7 @@ class FileUtility
      * @param $folder
      * @return string
      */
-    public function normalizeFolder($folder)
+    public function normalizeFolder($folder): string
     {
         return rtrim($folder, '/') . '/';
     }

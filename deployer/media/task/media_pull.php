@@ -10,25 +10,22 @@ use SourceBroker\DeployerInstance\Configuration;
  * @see https://github.com/sourcebroker/deployer-extended-media#media-pull
  */
 task('media:pull', function () {
-    $sourceName = get('argument_stage');
-    if (null === $sourceName) {
-        throw new GracefulShutdownException("The source instance is required for media:pull command. [Error code: 1488149981776]");
-    }
-    if (get('default_stage') === get('instance_live_name', 'live')) {
+    $sourceName = get('argument_host');
+    if (get('local_host') === get('instance_live_name', 'live')) {
         if (!get('media_allow_pull_live', true)) {
             throw new GracefulShutdownException(
-                'FORBIDDEN: For security its forbidden to pull media to top instance: "' . get('default_stage') . '"!'
+                'FORBIDDEN: For security its forbidden to pull media to top instance: "' . get('local_host') . '"!'
             );
         }
         if (!get('media_allow_pull_live_force', false)) {
-            write("<error>\n\n");
-            write(sprintf(
+            writeln("<error>\n\n");
+            writeln(sprintf(
                 "You going to pull media from instance: \"%s\" to top instance: \"%s\". ",
                 $sourceName,
-                get('default_stage')
+                get('local_host')
             ));
-            write("This can be destructive.\n\n");
-            write("</error>");
+            writeln("This can be destructive.\n\n");
+            writeln("</error>");
             if (!askConfirmation('Do you really want to continue?', false)) {
                 throw new GracefulShutdownException('Process aborted.');
             }
@@ -53,8 +50,8 @@ task('media:pull', function () {
     $dst = (new FileUtility)->normalizeFolder($dst);
 
     $sourceServer = Configuration::getHost($sourceName);
-    $host = $sourceServer->getRealHostname();
-    $user = !$sourceServer->getUser() ? '' : $sourceServer->getUser() . '@';
+    $host = $sourceServer->getHostname();
+    $user = !$sourceServer->getRemoteUser() ? '' : $sourceServer->getRemoteUser() . '@';
 
     $sshOptions = '';
     if (!empty($sourceServer->getSshArguments())) {

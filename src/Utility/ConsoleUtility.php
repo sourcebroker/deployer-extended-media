@@ -2,6 +2,7 @@
 
 namespace SourceBroker\DeployerExtendedMedia\Utility;
 
+use InvalidArgumentException;
 use function Deployer\input;
 
 /**
@@ -18,7 +19,7 @@ class ConsoleUtility
      * @param bool $required
      * @return mixed
      */
-    public function getOption($optionToFind, $required = false)
+    public function getOption($optionToFind, bool $required = false)
     {
         $optionReturnValue = null;
         if (!empty(input()->getOption('options'))) {
@@ -40,7 +41,7 @@ class ConsoleUtility
             }
         }
         if ($required && $optionReturnValue === null) {
-            throw new \InvalidArgumentException('No `--options=' . $optionToFind . ':value` set.', 1458937128560);
+            throw new InvalidArgumentException('No `--options=' . $optionToFind . ':value` set.', 1458937128560);
         }
         return $optionReturnValue;
     }

@@ -10,10 +10,7 @@ use SourceBroker\DeployerInstance\Configuration;
  * @see https://github.com/sourcebroker/deployer-extended-media#media-push
  */
 task('media:push', function () {
-    $targetName = get('argument_stage');
-    if (null === $targetName) {
-        throw new GracefulShutdownException("The target instance is required for media:push command. [Error code: 1488149981776]");
-    }
+    $targetName = get('argument_host');
     if ($targetName === get('instance_live_name', 'live')) {
         if (!get('media_allow_push_live', true)) {
             throw new GracefulShutdownException(
@@ -21,14 +18,14 @@ task('media:push', function () {
             );
         }
         if (!get('media_allow_push_live_force', false)) {
-            write("<error>\n\n");
-            write(sprintf(
+            writeln("<error>\n\n");
+            writeln(sprintf(
                 "You going to push media from instance: \"%s\" to top instance: \"%s\". ",
-                get('default_stage'),
+                get('local_host'),
                 $targetName
             ));
-            write("This can be destructive.\n\n");
-            write("</error>");
+            writeln("This can be destructive.\n\n");
+            writeln("</error>");
             if (!askConfirmation('Do you really want to continue?', false)) {
                 throw new GracefulShutdownException('Process aborted.');
             }
@@ -53,8 +50,8 @@ task('media:push', function () {
     $dst = (new FileUtility)->normalizeFolder($dst);
 
     $targetServer = Configuration::getHost($targetName);
-    $host = $targetServer->getRealHostname();
-    $user = !$targetServer->getUser() ? '' : $targetServer->getUser() . '@';
+    $host = $targetServer->getHostname();
+    $user = !$targetServer->getRemoteUser() ? '' : $targetServer->getRemoteUser() . '@';
 
     $sshOptions = '';
     if (!empty($targetServer->getSshArguments())) {

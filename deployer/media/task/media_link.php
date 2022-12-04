@@ -10,7 +10,7 @@ use Deployer\Exception\GracefulShutdownException;
  * @see https://github.com/sourcebroker/deployer-extended-media#media-link
  */
 task('media:link', function () {
-    $sourceName = get('argument_stage');
+    $sourceName = get('argument_host');
     $targetName = (new ConsoleUtility)->getOption('target');
     if (null === $targetName) {
         throw new GracefulShutdownException(
@@ -26,14 +26,14 @@ task('media:link', function () {
         }
         if (!get('media_allow_link_live_force', false)) {
             $doNotAskAgainForLive = true;
-            write("<error>\n\n");
-            write(sprintf(
+            writeln("<error>\n\n");
+            writeln(sprintf(
                 "You going to link media from instance: \"%s\" to top instance: \"%s\". ",
                 $sourceName,
                 $targetName
             ));
-            write("This can be destructive.\n\n");
-            write("</error>");
+            writeln("This can be destructive.\n\n");
+            writeln("</error>");
             if (!askConfirmation('Do you really want to continue?', false)) {
                 throw new GracefulShutdownException('Process aborted.');
             }
@@ -50,22 +50,22 @@ task('media:link', function () {
     }
 
     if (!$doNotAskAgainForLive && !askConfirmation(sprintf(
-        "Do you really want to link media from instance %s to instance %s",
-        $sourceName,
-        $targetName
-    ), true)) {
+            "Do you really want to link media from instance %s to instance %s",
+            $sourceName,
+            $targetName
+        ), true)) {
         throw new GracefulShutdownException('Process aborted.');
     }
 
     $targetServer = Configuration::getHost($targetName);
     $sourceServer = Configuration::getHost($sourceName);
 
-    $targetDir = $targetServer->getConfig()->get('deploy_path') . '/' .
-        (test('[ -e ' . $targetServer->getConfig()->get('deploy_path') . '/release ]') ? 'release' : 'current');
-    $sourceDir = $sourceServer->getConfig()->get('deploy_path') . '/' .
-        (test('[ -e ' . $sourceServer->getConfig()->get('deploy_path') . '/release ]') ? 'release' : 'current');
+    $targetDir = $targetServer->get('deploy_path') . '/' .
+        (test('[ -e ' . $targetServer->get('deploy_path') . '/release ]') ? 'release' : 'current');
+    $sourceDir = $sourceServer->get('deploy_path') . '/' .
+        (test('[ -e ' . $sourceServer->get('deploy_path') . '/release ]') ? 'release' : 'current');
 
-    if ($targetServer->getRealHostname() !== $sourceServer->getRealHostname()
+    if ($targetServer->getHostname() !== $sourceServer->getHostname()
         || $targetServer->getPort() !== $sourceServer->getPort()) {
         throw new GracefulShutdownException(
             "FORBIDDEN: Creating links only allowed on same machine. [Error code: 1488234862247]"
@@ -74,7 +74,7 @@ task('media:link', function () {
 
     // linking on the same remote server
     // 1. cd to source server document root
-    // 2. find all files fulfiting filter conditions (-L param makes find to search in linked directories - for example shared/)
+    // 2. find all files fulfilling filter conditions (-L param makes find to search in linked directories - for example shared/)
     //    for each found file:
     //     2.1. check if file already exists on target instance - if it exists omit this file
     //     2.2. get directory name (on source instance) of file and create directories recursively (on destination instance)
@@ -92,9 +92,9 @@ while read path; do
             echo "Delete current file \$path"
             rm "{$targetDir}/\$path"
         fi
-        
+
         if [ ! -e "{$targetDir}/\$path" ]
-        then 
+        then
             echo "Linking file \$path"
             ln -s "{$sourceDir}/\$path" "{$targetDir}/\$path"
         fi
@@ -103,4 +103,4 @@ done
 BASH;
 
     run($script);
-})->desc('Synchronize files between instances using symlinks for each file (working only when instances on the same host');
+})->desc('Synchronize files between instances using symlinks for each file (working only when instances on the same host)');
