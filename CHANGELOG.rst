@@ -2,7 +2,7 @@
 Changelog
 ---------
 
-master
+10.0.0
 ~~~~~~
 
 1) [TASK][BREAKING] Refactor for Deployer 7.
