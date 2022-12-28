@@ -6,6 +6,7 @@ Changelog
 ~~~~~~
 
 1) [TASK][BREAKING] Bump dependency to ``sourcebroker/deployer-instance``.
+2) [BUGFIX] Fix wrong method call for ssh options on ``media-pull`` na ``media-push``.
 
 10.0.0
 ~~~~~~

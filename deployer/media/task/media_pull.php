@@ -55,7 +55,7 @@ task('media:pull', function () {
 
     $sshOptions = '';
     if (!empty($sourceServer->getSshArguments())) {
-        $sshOptions = '-e ' . escapeshellarg('ssh ' . $sourceServer->getSshArguments()->getCliArguments());
+        $sshOptions = '-e ' . escapeshellarg('ssh ' . $sourceServer->connectionOptionsString());
     }
     runLocally(
         'rsync ' . $sshOptions . ' {{media_rsync_flags}}{{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}}'
