@@ -53,12 +53,13 @@ task('media:push', function () {
     $host = $targetServer->getHostname();
     $user = !$targetServer->getRemoteUser() ? '' : $targetServer->getRemoteUser() . '@';
 
-    $sshOptions = '';
-    if (!empty($targetServer->getSshArguments())) {
-        $sshOptions = '-e ' . escapeshellarg('ssh ' . $targetServer->connectionOptionsString());
+    $rsyncSshOptions = '';
+    $connectionOptions = $targetServer->connectionOptionsString();
+    if ($connectionOptions !== '') {
+        $rsyncSshOptions = '-e "ssh ' . $connectionOptions . ' "';
     }
     runLocally(
-        'rsync ' . $sshOptions . ' {{media_rsync_flags}}{{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}}'
+        'rsync ' . $rsyncSshOptions . ' {{media_rsync_flags}}{{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}}'
         . ' '
         . escapeshellarg($dst)
         . ' '

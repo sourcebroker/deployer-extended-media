@@ -2,6 +2,11 @@
 Changelog
 ---------
 
+11.0.1
+~~~~~~
+
+1) [BUGFIX] Fix rsync ssh non standard options.
+
 11.0.0
 ~~~~~~
 
