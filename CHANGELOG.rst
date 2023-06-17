@@ -2,6 +2,12 @@
 Changelog
 ---------
 
+master
+~~~~~~
+
+1) [FEATURE] Add new merging strategy for media config. It now merges ``media_default``, ``media`` and ``media_custom``.
+   In ``deploy.php`` user should use ``media_custom`` to override ``media_default`` and ``media``.
+
 11.0.1
 ~~~~~~
 

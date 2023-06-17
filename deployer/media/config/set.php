@@ -5,6 +5,9 @@ namespace Deployer;
 /*
  * Based on https://github.com/deployphp/recipes/blob/master/recipes/rsync.php
  */
+
+use SourceBroker\DeployerExtendedMedia\Utility\ArrayUtility;
+
 set(
     'media_default',
     [
@@ -49,7 +52,7 @@ set(
 set('media_rsync_dest', getcwd());
 
 set('media_rsync_excludes', function () {
-    $config = array_merge_recursive(get('media_default'), get('media'));
+    $config = get('media_config');
 
     $excludes = $config['exclude'] ?? [];
     $excludesRsync = '';
@@ -81,7 +84,7 @@ set('media_rsync_excludes', function () {
 });
 
 set('media_rsync_includes', function () {
-    $config = array_merge_recursive(get('media_default'), get('media'));
+    $config = get('media_config');
 
     $includes = $config['include'] ?? [];
     $includesRsync = '';
@@ -97,7 +100,7 @@ set('media_rsync_includes', function () {
 });
 
 set('media_rsync_filter', function () {
-    $config = array_merge_recursive(get('media_default'), get('media'));
+    $config = get('media_config');
 
     $filters = $config['filter'] ?? [];
     $filtersRsync = '';
@@ -119,7 +122,7 @@ set('media_rsync_filter', function () {
 });
 
 set('media_rsync_options', function () {
-    $config = array_merge_recursive(get('media_default'), get('media'));
+    $config = get('media_config');
 
     $options = $config['options'] ?? [];
     $optionsRsync = [];
@@ -130,7 +133,7 @@ set('media_rsync_options', function () {
 });
 
 set('media_rsync_flags', function () {
-    $config = array_merge_recursive(get('media_default'), get('media'));
+    $config = get('media_config');
 
     return !empty($config['flags'])
         ? ' -' . $config['flags']
@@ -139,4 +142,11 @@ set('media_rsync_flags', function () {
 
 set('local/bin/deployer', function () {
     return './vendor/bin/dep';
+});
+
+set('media_config', function () {
+    $config = get('media_default');
+    (new ArrayUtility)->mergeRecursiveWithOverrule($config, get('media'));
+    (new ArrayUtility)->mergeRecursiveWithOverrule($config, get('media_custom'));
+    return $config;
 });

@@ -54,14 +54,15 @@ Installation
 4) In deploy.php set the folders you want to synchronize:
    ::
 
-      set('media',
+      set('media_custom',
           [
            'filter' => [
-               '+ /fileadmin/',
-               '- /fileadmin/_processed_/*',
-               '+ /fileadmin/**',
-               '+ /uploads/',
-               '+ /uploads/**',
+               '+ /public/',
+               '+ /public/fileadmin/',
+               '- /public/fileadmin/_processed_/*',
+               '+ /public/fileadmin/**',
+               '+ /public/uploads/',
+               '+ /public/uploads/**',
                '- *'
           ]
       ]);
@@ -184,22 +185,8 @@ Default configuration for task:
     ]);
 
 
-In your project you should set "media" which will be merged with "media_default" configuration.
-
-Example configuration for TYPO3 CMS (typo3.org):
-::
-
-   set('media',
-       [
-        'filter' => [
-            '+ /fileadmin/',
-            '- /fileadmin/_processed_/*',
-            '+ /fileadmin/**',
-            '+ /uploads/',
-            '+ /uploads/**',
-            '- *'
-       ]
-   ]);
+In your deploy.php you should set ``media_custom`` which will be merged with ``media_default`` configuration.
+See "Managing the media config" section to know how to set ``media_custom`` configuration.
 
 
 Tasks
@@ -251,7 +238,7 @@ Example: ``dep media:link live --options=target:beta``
 media:pull
 ++++++++++
 
-Pull media from source instance to current instance using rsync and options from "media_default" and "media".
+Pull media from source instance to current instance using rsync and options from media config.
 
 ::
 
@@ -267,7 +254,7 @@ You can also forbid pulling to live instance by setting ``media_allow_pull_live`
 media:push
 ++++++++++
 
-Pull media from current instance to target instance using rsync and options from "media_default" and "media".
+Pull media from current instance to target instance using rsync and options from media config.
 
 ::
 
@@ -276,9 +263,91 @@ Pull media from current instance to target instance using rsync and options from
 Pushing to instance defined in ``instance_live_name`` (default ``live``) is special case.
 If you push to highest instance then by default you will be asked twice if you really want to.
 You can disable asking by setting ``media_allow_push_live_force`` to ``true``.
-You can also forbid puhsing to live instance by setting ``media_allow_push_live`` to ``false``.
+You can also forbid pushing to live instance by setting ``media_allow_push_live`` to ``false``.
 
 Example: ``dep media:push beta``
+
+
+Managing the media config
+-------------------------
+
+The final media config is result of merging three arrays:
+ - ``media_default`` (from deployer-extended-media)
+ - ``media`` (from deployer-extended-typo3)
+ - ``media_custom`` (from user's deploy.php file)
+
+The merging function has some special features:
+
+1) A special ``__UNSET`` notation is used to remove specific items from array during the merging process.
+2) An empty array will overwrite the array we merge to.
+
+Examples of config final tunning
+++++++++++++++++++++++++++++++++
+
+**Example 1: Removing a specific option**
+
+.. code-block:: php
+
+    set('media_custom', [
+        'options' => [
+            '__UNSET' => ['safe-links'],
+        ],
+    ]);
+
+In the above example, if ``options`` in the ``media_default`` array contained ``['copy-links', 'safe-links']``,
+after the merge with ``media_custom``, ``options`` would contain only ``['copy-links']``.
+
+
+**Example 2: Removing specific file types from exclusion**
+
+.. code-block:: php
+
+    set('media_custom', [
+        'exclude-case-insensitive' => [
+            '__UNSET' => ['*.pdf', '*.exe'],
+        ],
+    ]);
+
+In this example, ``*.pdf`` and ``*.exe`` are removed from the list of case-insensitive excluded file types.
+
+
+**Example 3: Completely clearing an array and adding one new option**
+
+.. code-block:: php
+
+    set('media_custom', [
+        'exclude-case-insensitive' => [
+            '__UNSET' => get('media_default')['exclude-case-insensitive'],
+            '*.mp4'
+        ],
+    ]);
+
+In this example, ``__UNSET`` is used to completely clear the ``exclude`` array in the ``media_default`` settings and add only ``*.mp4``.
+
+If you want only to clear you can just set empty array:
+
+.. code-block:: php
+
+    set('media_custom', [
+        'exclude-case-insensitive' => []
+    ]);
+
+
+**Example 4: Extend existing filter config**
+
+.. code-block:: php
+
+    set('media_custom', [
+        'filter' => [
+            '__UNSET' => ['- *'],
+            '+ /' . get('web_path') . 'public/pim/',
+            '+ /' . get('web_path') . 'public/pim/**',
+            '- *',
+        ],
+    ]);
+
+In this example, ``__UNSET`` is used to remove ``- *`` option from filter array, then adding ``public/pim`` folder
+for synchronising. Finally putting ``- *`` at end of filter array.
 
 
 Changelog
