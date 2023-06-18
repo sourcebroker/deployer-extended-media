@@ -2,6 +2,11 @@
 Changelog
 ---------
 
+12.0.1
+~~~~~~
+
+1) [BUGFIX] Set default values for arguments in mergeRecursiveWithOverrule.
+
 12.0.0
 ~~~~~~
 

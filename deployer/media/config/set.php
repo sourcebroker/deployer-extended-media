@@ -146,7 +146,7 @@ set('local/bin/deployer', function () {
 
 set('media_config', function () {
     $config = get('media_default');
-    (new ArrayUtility)->mergeRecursiveWithOverrule($config, get('media'));
-    (new ArrayUtility)->mergeRecursiveWithOverrule($config, get('media_custom'));
+    (new ArrayUtility)->mergeRecursiveWithOverrule($config, get('media', []));
+    (new ArrayUtility)->mergeRecursiveWithOverrule($config, get('media_custom', []));
     return $config;
 });
