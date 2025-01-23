@@ -1,10 +1,7 @@
 deployer-extended-media
 =======================
 
-.. image:: https://scrutinizer-ci.com/g/sourcebroker/deployer-extended-media/badges/quality-score.png?b=master
-   :target: https://scrutinizer-ci.com/g/sourcebroker/deployer-extended-media/?branch=master
-
-.. image:: http://img.shields.io/packagist/v/sourcebroker/deployer-extended-media.svg?style=flat
+.. image:: https://img.shields.io/packagist/v/sourcebroker/deployer-extended-media.svg?style=flat
    :target: https://packagist.org/packages/sourcebroker/deployer-extended-media
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
