@@ -2,6 +2,12 @@
 Changelog
 ---------
 
+13.0.0
+~~~~~~
+
+1) [TASK][BREAKING] Add support for resolving home (``~``) in ``deploy_path``. Probably not breaking change but safer
+    that each can test it before upgrading.
+
 12.0.1
 ~~~~~~
 

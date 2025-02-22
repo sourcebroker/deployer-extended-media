@@ -3,6 +3,7 @@
 namespace Deployer;
 
 use SourceBroker\DeployerExtendedMedia\Utility\ConsoleUtility;
+use SourceBroker\DeployerExtendedMedia\Utility\FileUtility;
 use SourceBroker\DeployerInstance\Configuration;
 use Deployer\Exception\GracefulShutdownException;
 
@@ -60,9 +61,10 @@ task('media:copy', function () {
     $targetServer = Configuration::getHost($targetName);
     $sourceServer = Configuration::getHost($sourceName);
 
-    $targetDir = $targetServer->get('deploy_path') . '/' .
+    $fileUtility = new FileUtility();
+    $targetDir = $fileUtility->resolveHomeDirectory($targetServer->get('deploy_path')) . '/' .
         (test('[ -e ' . $targetServer->get('deploy_path') . '/release ]') ? 'release' : 'current');
-    $sourceDir = $sourceServer->get('deploy_path') . '/' .
+    $sourceDir = $fileUtility->resolveHomeDirectory($sourceServer->get('deploy_path')) . '/' .
         (test('[ -e ' . $sourceServer->get('deploy_path') . '/release ]') ? 'release' : 'current');
 
     if ($targetServer->getHostname() === $sourceServer->getHostname()

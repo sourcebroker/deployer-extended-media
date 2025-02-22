@@ -34,13 +34,15 @@ task('media:pull', function () {
             }
         }
     }
-    $src = get('deploy_path') . '/' . (test('[ -L {{deploy_path}}/release ]') ? 'release' : 'current');
+
+    $fileUtility = new FileUtility();
+    $src = $fileUtility->resolveHomeDirectory(get('deploy_path')) . '/' . (test('[ -L {{deploy_path}}/release ]') ? 'release' : 'current');
     if (!trim($src)) {
         throw new GracefulShutdownException('You need to specify a source path.');
     }
     $src = (new FileUtility)->normalizeFolder($src);
 
-    $dst = get('media_rsync_dest');
+    $dst = $fileUtility->resolveHomeDirectory(get('media_rsync_dest'));
     while (is_callable($dst)) {
         $dst = $dst();
     }

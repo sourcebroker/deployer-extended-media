@@ -2,6 +2,8 @@
 
 namespace SourceBroker\DeployerExtendedMedia\Utility;
 
+use function Deployer\run;
+
 /**
  * Class FileUtility
  * @package SourceBroker\DeployerExtendedMedia\Utility
@@ -24,5 +26,13 @@ class FileUtility
     public function normalizeFolder($folder): string
     {
         return rtrim($folder, '/') . '/';
+    }
+
+    public function resolveHomeDirectory(string $path): string
+    {
+        if ($path[0] === '~') {
+            $path = run('echo ${HOME:-${USERPROFILE}}' . escapeshellarg(substr($path, 1)));
+        }
+        return $path;
     }
 }
