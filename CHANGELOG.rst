@@ -2,6 +2,11 @@
 Changelog
 ---------
 
+13.1.0
+------
+
+1) [TASK] Extend the dependency to v5 of ``sourcebroker/deployer-loader``.
+
 13.0.0
 ~~~~~~
 
