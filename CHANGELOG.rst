@@ -2,6 +2,11 @@
 Changelog
 ---------
 
+14.1.0
+------
+
+1) [FEATURE] Support for Deployer 8 (`deployer/deployer ^8.0.0`) with backward compatibility for Deployer 7
+
 14.0.0
 ------
 
