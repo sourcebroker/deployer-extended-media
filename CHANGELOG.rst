@@ -7,6 +7,9 @@ Changelog
 
 1) [FEATURE] Support for Deployer 8 (`deployer/deployer ^8.0.0`) with backward compatibility for Deployer 7
 
+2) [BUGFIX] Fix ``media:pull``/``media:push`` on Deployer 8 where ``Host::connectionOptionsString()`` no longer exists.
+   New ``RsyncUtility::getSshOptions()`` uses it on Deployer 7 and falls back to ``Host::connectionOptions()`` on Deployer 8.
+
 14.0.0
 ------
 

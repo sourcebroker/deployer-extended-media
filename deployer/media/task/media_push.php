@@ -4,6 +4,7 @@ namespace Deployer;
 
 use Deployer\Exception\GracefulShutdownException;
 use SourceBroker\DeployerExtendedMedia\Utility\FileUtility;
+use SourceBroker\DeployerExtendedMedia\Utility\RsyncUtility;
 use SourceBroker\DeployerInstance\Configuration;
 
 /*
@@ -55,11 +56,7 @@ task('media:push', function () {
     $host = $targetServer->getHostname();
     $user = !$targetServer->getRemoteUser() ? '' : $targetServer->getRemoteUser() . '@';
 
-    $rsyncSshOptions = '';
-    $connectionOptions = $targetServer->connectionOptionsString();
-    if ($connectionOptions !== '') {
-        $rsyncSshOptions = '-e "ssh ' . $connectionOptions . ' "';
-    }
+    $rsyncSshOptions = (new RsyncUtility())->getSshOptions($targetServer);
     runLocally(
         'rsync ' . $rsyncSshOptions . ' {{media_rsync_flags}}{{media_rsync_options}}{{media_rsync_includes}}{{media_rsync_excludes}}{{media_rsync_filter}}'
         . ' '
