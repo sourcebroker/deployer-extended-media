@@ -10,6 +10,8 @@ Changelog
 2) [BUGFIX] Fix ``media:pull``/``media:push`` on Deployer 8 where ``Host::connectionOptionsString()`` no longer exists.
    New ``RsyncUtility::getSshOptions()`` uses it on Deployer 7 and falls back to ``Host::connectionOptions()`` on Deployer 8.
 
+3) [TASK] Raise ``sourcebroker/deployer-instance`` requirement to ``^7.1.0`` (first version supporting Deployer 8).
+
 14.0.0
 ------
 
